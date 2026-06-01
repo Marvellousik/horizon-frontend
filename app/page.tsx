@@ -60,6 +60,59 @@ export default function Home() {
     }
   };
 
+  const handleMockLogin = (role: "STAFF" | "CUSTOMER") => {
+    setMessage(null);
+    setLoading(true);
+
+    try {
+      // Generate simulated base64 JWT payload with authorized role claims
+      const header = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"; // {"alg":"HS256","typ":"JWT"}
+      const payloadObj = {
+        sub: role === "STAFF" ? "staff-123" : "customer-123",
+        name: role === "STAFF" ? "Emma Staff (Admin)" : "Alex Customer",
+        email: role === "STAFF" ? "staff@horizon.com" : "alex@horizon.com",
+        role: role,
+        role_classification: role,
+        user_role: role,
+        groups: [role],
+        roles: [role],
+        iat: Math.floor(Date.now() / 1000)
+      };
+
+      const payloadBase64 = window.btoa(JSON.stringify(payloadObj))
+        .replace(/=/g, "")
+        .replace(/\+/g, "-")
+        .replace(/\//g, "_");
+
+      const signature = "dummy-signature";
+      const mockToken = `${header}.${payloadBase64}.${signature}`;
+
+      // Store in localStorage matching all access points
+      localStorage.setItem("accessToken", mockToken);
+      localStorage.setItem("access_token", mockToken);
+      localStorage.setItem("username", role === "STAFF" ? "Emma Staff" : "Alex Customer");
+      localStorage.setItem("role", role);
+      localStorage.setItem("userRole", role);
+
+      // Trigger hot-reload on state listeners
+      window.dispatchEvent(new Event("storage"));
+
+      setMessage(`Simulated ${role} session login successful! Redirecting...`);
+      setTimeout(() => {
+        if (role === "STAFF") {
+          router.push("/admin/dashboard");
+        } else {
+          router.push("/dashboard");
+        }
+      }, 800);
+    } catch (e) {
+      console.error(e);
+      setMessage("Failed to trigger simulated mock session.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#E8EEE8] text-slate-900 dark:bg-[#020617] dark:text-slate-100">
       <div className="mx-auto flex min-h-screen max-w-[1600px] flex-col lg:flex-row">
@@ -179,10 +232,36 @@ export default function Home() {
               <button
                 type="submit"
                 disabled={loading}
-                className="flex h-14 w-full items-center justify-center rounded-full bg-[#963D1D] px-6 text-base font-semibold text-white transition hover:bg-[#7A2F1B] disabled:cursor-not-allowed disabled:opacity-60"
+                className="flex h-14 w-full items-center justify-center rounded-full bg-[#963D1D] px-6 text-base font-semibold text-white transition hover:bg-[#7A2F1B] disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
               >
                 {loading ? "Signing in..." : "Enter Securely"}
               </button>
+
+              {/* Dynamic developer mockup role selector */}
+              <div className="pt-4 border-t border-dashed border-stone-200 dark:border-stone-850 space-y-3">
+                <p className="text-xs uppercase tracking-wider text-center text-stone-500 font-semibold">
+                  Demo & Testing Quick Roles
+                </p>
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => handleMockLogin("STAFF")}
+                    disabled={loading}
+                    className="flex-1 py-3 text-xs font-bold text-[#963D1D] bg-[#FFF4EF] hover:bg-[#FFEAE0] border border-[#E9D7CF] rounded-full transition cursor-pointer text-center"
+                  >
+                    🛡️ Sign in as STAFF (Admin)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleMockLogin("CUSTOMER")}
+                    disabled={loading}
+                    className="flex-1 py-3 text-xs font-bold text-stone-700 bg-stone-50 hover:bg-stone-100 border border-stone-200 rounded-full transition cursor-pointer text-center"
+                  >
+                    👥 Sign in as CUSTOMER
+                  </button>
+                </div>
+              </div>
+
             </form>
 
             <div className="mt-8 flex flex-col gap-4 border-t border-slate-200 pt-6 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between">
@@ -200,3 +279,4 @@ export default function Home() {
     </div>
   );
 }
+

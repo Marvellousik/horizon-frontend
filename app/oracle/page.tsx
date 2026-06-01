@@ -282,7 +282,7 @@ export default function OraclePage() {
       </section>
 
       {/* Right Column - Conversation History */}
-      <aside className="w-80 bg-stone-50 dark:bg-stone-900 border-l border-stone-200 dark:border-stone-700 overflow-y-auto p-6 flex flex-col">
+      <aside className="hidden lg:flex lg:w-80 bg-stone-50 dark:bg-stone-900 border-l border-[#e5e2db] dark:border-stone-700 overflow-y-auto p-6 flex-col shrink-0">
         {/* Header */}
         <h3 className="text-xs uppercase tracking-widest text-stone-500 dark:text-slate-400 font-semibold mb-4">
           Conversation History

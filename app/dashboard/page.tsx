@@ -13,6 +13,11 @@ import {
   MessageSquare,
   ArrowRight,
   Lightbulb,
+  Maximize,
+  X,
+  Sparkles,
+  Camera,
+  CheckCircle2,
 } from "lucide-react";
 
 interface DashboardData {
@@ -25,7 +30,16 @@ interface DashboardData {
     category: string;
     amount: number;
     timestamp: string;
+    processed_by_staff_id?: string;
+    branch_code?: string;
   }>;
+}
+
+interface SettingsPreferences {
+  dyslexia_font: boolean;
+  simplified_numbers: boolean;
+  anxiety_mode: boolean;
+  high_contrast_mode: boolean;
 }
 
 const getCategoryIcon = (category?: string) => {
@@ -33,14 +47,14 @@ const getCategoryIcon = (category?: string) => {
 
   switch (normalizedCategory) {
     case "groceries":
-      return <ShoppingCart className="h-5 w-5 text-[#49654e]" />;
+      return <ShoppingCart className="h-5 w-5 text-[#49654e] dark:text-emerald-400" />;
     case "dining":
-      return <Coffee className="h-5 w-5 text-[#D96C4A]" />;
+      return <Coffee className="h-5 w-5 text-[#D96C4A] dark:text-orange-400" />;
     case "housing":
     case "rent":
-      return <Home className="h-5 w-5 text-[#4a6153]" />;
+      return <Home className="h-5 w-5 text-[#4a6153] dark:text-teal-400" />;
     default:
-      return <ShoppingCart className="h-5 w-5 text-stone-600" />;
+      return <ShoppingCart className="h-5 w-5 text-stone-600 dark:text-slate-400" />;
   }
 };
 
@@ -50,6 +64,31 @@ export default function Dashboard() {
   const [displayName, setDisplayName] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Accessibility Preferences
+  const [preferences, setPreferences] = useState<SettingsPreferences>({
+    dyslexia_font: false,
+    simplified_numbers: false,
+    anxiety_mode: false,
+    high_contrast_mode: false,
+  });
+
+  // Modals state
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [showScanModal, setShowScanModal] = useState(false);
+
+  // Scan simulation states
+  const [scanStatus, setScanStatus] = useState<"idle" | "scanning" | "success">("idle");
+  const [scanResult, setScanResult] = useState<string | null>(null);
+
+  // Payment states
+  const [account_no, setAccount_no] = useState("");
+  const [destination_account, setDestination_account] = useState("");
+  const [amount, setAmount] = useState("");
+  const [billName, setBillName] = useState("");
+  const [bankingLoading, setBankingLoading] = useState(false);
+  const [bankingError, setBankingError] = useState<string | null>(null);
+  const [paymentSuccess, setPaymentSuccess] = useState<string | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -63,9 +102,10 @@ export default function Dashboard() {
       return;
     }
 
-    const fetchDashboardData = async () => {
+    const fetchDashboardAndPrefs = async () => {
       try {
-        const response = await axios.get(
+        // Fetch dashboard data
+        const dashboardResponse = await axios.get(
           "http://127.0.0.1:8000/api/dashboard/",
           {
             headers: {
@@ -74,13 +114,27 @@ export default function Dashboard() {
             },
           },
         );
-        console.log("Dashboard Data:", response.data);
-        setData(response.data);
-        setDisplayName(response.data.username || storedName || "");
+        setData(dashboardResponse.data);
+        setDisplayName(dashboardResponse.data.username || storedName || "");
         setError(null);
+
+        // Fetch settings preferences
+        try {
+          const prefsResponse = await axios.get<SettingsPreferences>(
+            "http://127.0.0.1:8000/api/settings/preferences/",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            },
+          );
+          setPreferences(prefsResponse.data);
+        } catch (prefErr) {
+          console.error("Preferences fetch error:", prefErr);
+        }
       } catch (err: any) {
-        console.log("Dashboard Error:", err.response?.data);
-        setError(err.response?.data?.detail || "Failed to load dashboard");
+        console.error("Dashboard Load Error:", err);
+        setError(err.response?.data?.detail || "Failed to load dashboard data");
         if (err.response?.status === 401) {
           localStorage.removeItem("accessToken");
           localStorage.removeItem("username");
@@ -91,14 +145,204 @@ export default function Dashboard() {
       }
     };
 
-    fetchDashboardData();
+    fetchDashboardAndPrefs();
   }, [router]);
 
-  const formatCurrency = (amount: number) => {
-    return `₦${amount.toLocaleString("en-NG", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
+  const formatCurrency = (amountVal: number) => {
+    const displayValue = preferences.simplified_numbers ? Math.round(amountVal) : amountVal;
+    return `₦${displayValue.toLocaleString("en-NG", {
+      minimumFractionDigits: preferences.simplified_numbers ? 0 : 2,
+      maximumFractionDigits: preferences.simplified_numbers ? 0 : 2,
     })}`;
+  };
+
+  const getTransactionSentence = (tx: any) => {
+    const amt = formatCurrency(tx.amount);
+    const merchant = tx.merchant || tx.recipient || tx.destination_account || "";
+    const cat = (tx.category || "").toLowerCase().trim();
+
+    if (cat === "transfer" || cat === "payment") {
+      return `Transfer of ${amt} to ${merchant || "external account"} completed.`;
+    }
+    if (cat === "deposit") {
+      return `Deposit of ${amt} processed successfully.`;
+    }
+    if (cat === "withdrawal") {
+      return `Withdrawal of ${amt} from main account.`;
+    }
+    if (cat === "dining") {
+      return `Spent ${amt} on dining at ${merchant || "Dining Partner"}.`;
+    }
+    if (cat === "groceries") {
+      return `Purchased groceries for ${amt} at ${merchant || "Store"}.`;
+    }
+    if (cat === "housing" || cat === "rent") {
+      return `Paid ${amt} for housing expenses to ${merchant || "Landlord"}.`;
+    }
+
+    return `Transaction of ${amt} at ${merchant || "Merchant"} recorded.`;
+  };
+
+  const extractOraError = (err: any): string => {
+    console.error("Banking operation failed:", err);
+    const dataVal = err?.response?.data;
+    if (!dataVal) return "Failed to process transaction. Please try again.";
+
+    const findOraPattern = (str: string) => {
+      const match = str.match(/ORA-\d+:[^"\n]*/);
+      return match ? match[0] : null;
+    };
+
+    if (typeof dataVal === "string") {
+      const ora = findOraPattern(dataVal);
+      if (ora) return ora;
+      return dataVal;
+    }
+
+    const candidates = [dataVal.error, dataVal.detail, dataVal.message, dataVal.exception];
+    for (const val of candidates) {
+      if (typeof val === "string") {
+        const ora = findOraPattern(val);
+        if (ora) return ora;
+      }
+    }
+
+    if (typeof dataVal === "object") {
+      for (const key of Object.keys(dataVal)) {
+        const val = dataVal[key];
+        if (typeof val === "string") {
+          const ora = findOraPattern(val);
+          if (ora) return ora;
+        } else if (Array.isArray(val) && typeof val[0] === "string") {
+          const ora = findOraPattern(val[0]);
+          if (ora) return ora;
+        }
+      }
+
+      for (const val of candidates) {
+        if (typeof val === "string") return val;
+      }
+
+      for (const key of Object.keys(dataVal)) {
+        if (typeof dataVal[key] === "string") return dataVal[key];
+      }
+    }
+
+    return "Failed to process transaction. Please try again.";
+  };
+
+  const handleBillPayment = async (type: "transfer" | "withdraw") => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      setBankingError("Please login to perform this action.");
+      return;
+    }
+
+    if (!account_no.trim()) {
+      setBankingError("Please enter your account number.");
+      return;
+    }
+
+    const parsedAmount = parseFloat(amount);
+    if (Number.isNaN(parsedAmount) || parsedAmount <= 0) {
+      setBankingError("Please enter a valid amount.");
+      return;
+    }
+
+    setBankingLoading(true);
+    setBankingError(null);
+    setPaymentSuccess(null);
+
+    try {
+      if (type === "transfer") {
+        if (!destination_account.trim()) {
+          setBankingError("Please enter the destination provider account.");
+          setBankingLoading(false);
+          return;
+        }
+
+        await axios.post(
+          "/api/bank/proc-transfer/",
+          {
+            source_account: account_no.trim(),
+            destination_account: destination_account.trim(),
+            amount: parsedAmount,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          },
+        );
+      } else {
+        await axios.post(
+          "/api/bank/proc-withdraw/",
+          {
+            account_no: account_no.trim(),
+            amount: parsedAmount,
+            staff_id: null,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          },
+        );
+      }
+
+      setPaymentSuccess(`Successfully paid ${formatCurrency(parsedAmount)} for ${billName}!`);
+
+      // Refresh dashboard data
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/dashboard/",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      setData(response.data);
+
+      setTimeout(() => {
+        setShowPaymentModal(false);
+        setAccount_no("");
+        setDestination_account("");
+        setAmount("");
+        setBillName("");
+        setPaymentSuccess(null);
+      }, 1500);
+    } catch (err: any) {
+      setBankingError(extractOraError(err));
+    } finally {
+      setBankingLoading(false);
+    }
+  };
+
+  // Scan simulation action
+  const handleStartScan = () => {
+    setScanStatus("scanning");
+    setScanResult(null);
+
+    setTimeout(() => {
+      setScanStatus("success");
+      setScanResult("Provider: FiberLink (A/C: 100500600) | Amount: ₦60.00");
+    }, 2000);
+  };
+
+  const handleApplyScanResult = () => {
+    setBillName("Scanned Internet Bill");
+    setDestination_account("100500600");
+    setAmount("60.00");
+    setBankingError(null);
+    setPaymentSuccess(null);
+    
+    setShowScanModal(false);
+    setScanStatus("idle");
+    setScanResult(null);
+    setShowPaymentModal(true);
   };
 
   if (loading) {
@@ -128,31 +372,58 @@ export default function Dashboard() {
   }
 
   return (
-    <main className="min-h-screen px-6 md:px-12 py-6 md:py-10 max-w-7xl mx-auto bg-[#fcf9f2] dark:bg-[#020617]">
+    <main className="min-h-screen px-4 md:px-12 py-6 md:py-10 max-w-7xl mx-auto bg-[#fcf9f2] dark:bg-[#020617]">
+      <style>{`
+        @keyframes scan {
+          0%, 100% { top: 0%; opacity: 0.8; }
+          50% { top: 100%; opacity: 1; }
+        }
+      `}</style>
+
       {/* Welcome Header & Quick Actions */}
       <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
         <div>
           <h2 className="text-3xl md:text-5xl font-serif font-bold text-stone-900 dark:text-slate-100 mb-2">
             Hello, {displayName || data.username}
           </h2>
-          <p className="text-base md:text-lg text-stone-500 max-w-md">
+          <p className="text-base md:text-lg text-stone-500 dark:text-slate-350 max-w-md">
             Take a deep breath. Your finances are looking steady today.
           </p>
         </div>
 
         {/* Quick Actions */}
         <div className="flex gap-3 overflow-x-auto pb-2 md:overflow-visible">
-          <button className="flex items-center gap-3 bg-[#D96C4A] text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-semibold shadow-lg shadow-[#D96C4A]/20 hover:opacity-90 transition-all active:scale-[0.98] whitespace-nowrap">
+          <button
+            onClick={() => router.push("/savings")}
+            className="flex items-center gap-3 bg-[#D96C4A] text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-semibold shadow-lg shadow-[#D96C4A]/20 hover:opacity-90 transition-all active:scale-[0.98] whitespace-nowrap cursor-pointer"
+          >
             <Send className="h-5 w-5" />
-            <span className="hidden sm:inline">Transfer</span>
+            <span className="inline">Transfer</span>
           </button>
-          <button className="flex items-center gap-3 bg-[#cbebce] text-[#10331C] px-6 md:px-8 py-3 md:py-4 rounded-full font-semibold hover:bg-[#b3deb8] transition-all active:scale-[0.98] whitespace-nowrap">
+          <button
+            onClick={() => {
+              setBillName("Quick Payment");
+              setDestination_account("");
+              setAmount("");
+              setBankingError(null);
+              setPaymentSuccess(null);
+              setShowPaymentModal(true);
+            }}
+            className="flex items-center gap-3 bg-[#cbebce] text-[#10331C] px-6 md:px-8 py-3 md:py-4 rounded-full font-semibold hover:bg-[#b3deb8] transition-all active:scale-[0.98] whitespace-nowrap cursor-pointer"
+          >
             <ShoppingCart className="h-5 w-5" />
-            <span className="hidden sm:inline">Pay</span>
+            <span className="inline">Pay</span>
           </button>
-          <button className="flex items-center gap-3 bg-stone-100 text-stone-700 px-6 md:px-8 py-3 md:py-4 rounded-full font-semibold hover:bg-stone-200 transition-all active:scale-[0.98] whitespace-nowrap">
-            <ShoppingCart className="h-5 w-5" />
-            <span className="hidden sm:inline">Scan</span>
+          <button
+            onClick={() => {
+              setScanStatus("idle");
+              setScanResult(null);
+              setShowScanModal(true);
+            }}
+            className="flex items-center gap-3 bg-stone-100 text-stone-700 dark:bg-slate-800 dark:text-slate-100 px-6 md:px-8 py-3 md:py-4 rounded-full font-semibold hover:bg-stone-200 dark:hover:bg-slate-700 transition-all active:scale-[0.98] whitespace-nowrap cursor-pointer"
+          >
+            <Maximize className="h-5 w-5" />
+            <span className="inline">Scan</span>
           </button>
         </div>
       </header>
@@ -162,7 +433,7 @@ export default function Dashboard() {
         {/* Left Column - Main Content (70%) */}
         <div className="lg:col-span-7 space-y-8">
           {/* Safe to Spend Card */}
-          <section className="bg-white p-8 md:p-12 rounded-xl shadow-sm relative overflow-hidden dark:bg-slate-900 dark:shadow-[0_25px_60px_rgba(0,0,0,0.35)]">
+          <section className="bg-white p-8 md:p-12 rounded-xl shadow-sm relative overflow-hidden dark:bg-slate-900 dark:shadow-[0_25px_60px_rgba(0,0,0,0.35)] border border-stone-200/40 dark:border-slate-800">
             {/* Decorative Background */}
             <div className="absolute -right-12 -top-12 w-64 h-64 bg-[#cbebce]/30 rounded-full blur-3xl"></div>
 
@@ -175,16 +446,16 @@ export default function Dashboard() {
                 <h3 className="text-6xl md:text-7xl font-bold text-[#D96C4A] tracking-tight">
                   {formatCurrency(data.savings_balance)}
                 </h3>
-                <p className="mt-3 text-base text-stone-600">
+                <p className="mt-3 text-base text-stone-600 dark:text-slate-300">
                   After all your bills are covered for the month.
                 </p>
               </div>
 
               {/* Progress Bar */}
               <div className="mt-8 space-y-3">
-                <div className="h-3 w-full bg-stone-200 rounded-full overflow-hidden">
+                <div className="h-3 w-full bg-stone-200 dark:bg-slate-800 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-[#D96C4A] rounded-full"
+                    className="h-full bg-[#D96C4A] rounded-full animate-pulse"
                     style={{
                       width: `${Math.min(
                         (data.savings_balance / data.current_balance) * 100,
@@ -193,20 +464,12 @@ export default function Dashboard() {
                     }}
                   />
                 </div>
-                <div className="flex justify-between text-sm text-stone-500">
+                <div className="flex justify-between text-sm text-stone-500 dark:text-slate-400 font-medium">
                   <span>
-                    ₦
-                    {data.savings_balance.toLocaleString("en-NG", {
-                      minimumFractionDigits: 0,
-                    })}{" "}
-                    Spent
+                    Spent: {formatCurrency(data.savings_balance)}
                   </span>
                   <span>
-                    ₦
-                    {data.current_balance.toLocaleString("en-NG", {
-                      minimumFractionDigits: 0,
-                    })}{" "}
-                    Total Budget
+                    Budget: {formatCurrency(data.current_balance)}
                   </span>
                 </div>
               </div>
@@ -214,14 +477,14 @@ export default function Dashboard() {
           </section>
 
           {/* Recent Insights */}
-          <section>
-            <div className="flex justify-between items-center mb-6">
-              <h4 className="text-2xl font-serif font-bold text-stone-900">
+          <section className="space-y-6">
+            <div className="flex justify-between items-center">
+              <h4 className="text-2xl font-serif font-bold text-stone-900 dark:text-slate-100">
                 Recent Insights
               </h4>
               <a
                 href="#"
-                className="text-[#D96C4A] font-semibold flex items-center gap-1 hover:underline"
+                className="text-[#D96C4A] font-semibold flex items-center gap-1 hover:underline text-sm sm:text-base"
               >
                 View History <ArrowRight className="h-4 w-4" />
               </a>
@@ -233,28 +496,42 @@ export default function Dashboard() {
                 data.recent_transactions.map((tx) => (
                   <div
                     key={tx.id}
-                    className="bg-white p-6 rounded-lg flex items-center gap-6 group hover:shadow-md transition-shadow"
+                    className="bg-white dark:bg-slate-900 border border-stone-200/40 dark:border-slate-800/80 p-5 rounded-xl flex items-center gap-4 sm:gap-6 group hover:shadow-md transition-all duration-300"
                   >
-                    <div className="w-14 h-14 rounded-full bg-stone-100 flex items-center justify-center shrink-0">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-stone-100 dark:bg-slate-800 flex items-center justify-center shrink-0">
                       {getCategoryIcon(tx.category)}
                     </div>
-                    <div className="flex-1">
-                      <div className="flex justify-between items-start">
-                        <h5 className="font-semibold text-stone-900">
-                          {tx.merchant}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1">
+                        <h5 className="font-semibold text-stone-900 dark:text-slate-100 text-sm sm:text-base leading-snug break-words pr-2">
+                          {getTransactionSentence(tx)}
                         </h5>
-                        <span className="font-semibold text-stone-900">
+                        <span className="font-bold text-stone-900 dark:text-slate-100 text-sm sm:text-base shrink-0">
                           -{formatCurrency(tx.amount)}
                         </span>
                       </div>
-                      <p className="text-sm text-stone-500">
-                        {tx.category} • Recently
+                      <p className="text-xs sm:text-sm text-stone-400 dark:text-slate-400 mt-1 uppercase tracking-wider">
+                        {tx.category || "General"} • {tx.timestamp ? new Date(tx.timestamp).toLocaleDateString() : "Recently"}
                       </p>
+                      {(tx.processed_by_staff_id || tx.branch_code) && (
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          {tx.processed_by_staff_id && (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-[#FAF0EC] text-[#9c3e20] dark:bg-[#381c15] dark:text-[#f8a892] border border-[#f3d3c9] dark:border-[#5a281e] tracking-wide">
+                              Staff: {tx.processed_by_staff_id}
+                            </span>
+                          )}
+                          {tx.branch_code && (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-[#EFF6EE] text-[#4d6952] dark:bg-[#14261a] dark:text-[#a8e8b9] border border-[#d2e8d4] dark:border-[#1e482f] tracking-wide">
+                              Branch: {tx.branch_code}
+                            </span>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))
               ) : (
-                <p className="text-sm text-stone-500">No recent transactions</p>
+                <p className="text-sm text-stone-500 dark:text-slate-450 italic">No recent transactions recorded</p>
               )}
             </div>
           </section>
@@ -273,35 +550,55 @@ export default function Dashboard() {
 
             <div className="space-y-4">
               {/* Reminder 1 */}
-              <div className="bg-white rounded-lg p-6 border-l-4 border-[#D96C4A] shadow-sm hover:shadow-md transition-shadow">
+              <div className="bg-white dark:bg-slate-900 border border-stone-200/40 dark:border-slate-800/80 rounded-xl p-6 border-l-4 border-[#D96C4A] shadow-sm hover:shadow-md transition-shadow">
                 <div className="flex justify-between items-start mb-4">
                   <Zap className="h-5 w-5 text-[#D96C4A]" />
-                  <span className="text-xs text-stone-400">Due in 3 days</span>
+                  <span className="text-xs text-stone-400 dark:text-slate-400">Due in 3 days</span>
                 </div>
-                <h5 className="font-semibold text-stone-900 mb-1">
+                <h5 className="font-semibold text-stone-900 dark:text-slate-100 mb-1">
                   Electricity Bill
                 </h5>
-                <p className="text-base text-stone-700 mb-4 font-semibold">
-                  ₦84.50
+                <p className="text-base text-stone-700 dark:text-slate-200 mb-4 font-semibold">
+                  {formatCurrency(84.50)}
                 </p>
-                <button className="w-full bg-[#D96C4A]/10 text-[#D96C4A] py-2 rounded-full font-semibold hover:bg-[#D96C4A]/20 transition-colors text-sm">
+                <button
+                  onClick={() => {
+                    setBillName("Electricity Bill");
+                    setDestination_account("100200300");
+                    setAmount("84.50");
+                    setBankingError(null);
+                    setPaymentSuccess(null);
+                    setShowPaymentModal(true);
+                  }}
+                  className="w-full bg-[#D96C4A]/10 text-[#D96C4A] dark:bg-[#D96C4A]/20 dark:text-[#FDE0D2] py-2 rounded-full font-semibold hover:bg-[#D96C4A]/20 transition-colors text-sm cursor-pointer"
+                >
                   Pay Now
                 </button>
               </div>
 
               {/* Reminder 2 */}
-              <div className="bg-white rounded-lg p-6 border-l-4 border-[#D96C4A] shadow-sm hover:shadow-md transition-shadow">
+              <div className="bg-white dark:bg-slate-900 border border-stone-200/40 dark:border-slate-800/80 rounded-xl p-6 border-l-4 border-[#D96C4A] shadow-sm hover:shadow-md transition-shadow">
                 <div className="flex justify-between items-start mb-4">
                   <Wifi className="h-5 w-5 text-[#D96C4A]" />
-                  <span className="text-xs text-stone-400">Due in 5 days</span>
+                  <span className="text-xs text-stone-400 dark:text-slate-400">Due in 5 days</span>
                 </div>
-                <h5 className="font-semibold text-stone-900 mb-1">
+                <h5 className="font-semibold text-stone-900 dark:text-slate-100 mb-1">
                   Home Internet
                 </h5>
-                <p className="text-base text-stone-700 mb-4 font-semibold">
-                  ₦60.00
+                <p className="text-base text-stone-700 dark:text-slate-200 mb-4 font-semibold">
+                  {formatCurrency(60.00)}
                 </p>
-                <button className="w-full bg-[#D96C4A]/10 text-[#D96C4A] py-2 rounded-full font-semibold hover:bg-[#D96C4A]/20 transition-colors text-sm">
+                <button
+                  onClick={() => {
+                    setBillName("Home Internet");
+                    setDestination_account("100500600");
+                    setAmount("60.00");
+                    setBankingError(null);
+                    setPaymentSuccess(null);
+                    setShowPaymentModal(true);
+                  }}
+                  className="w-full bg-[#D96C4A]/10 text-[#D96C4A] dark:bg-[#D96C4A]/20 dark:text-[#FDE0D2] py-2 rounded-full font-semibold hover:bg-[#D96C4A]/20 transition-colors text-sm cursor-pointer"
+                >
                   Pay Now
                 </button>
               </div>
@@ -311,37 +608,275 @@ export default function Dashboard() {
           {/* Did you know? */}
           <div className="bg-[#cfe9d7] p-6 rounded-lg relative overflow-hidden dark:bg-[#123124]">
             <div className="relative z-10">
-              <h5 className="font-serif font-bold text-[#10331C] mb-2 text-lg">
+              <h5 className="font-serif font-bold text-[#10331C] dark:text-emerald-100 mb-2 text-lg">
                 Did you know?
               </h5>
-              <p className="text-base text-[#1a3a20] leading-relaxed mb-4">
+              <p className="text-base text-[#1a3a20] dark:text-emerald-250 leading-relaxed mb-4">
                 Setting aside just ₦5 a day could help you reach your "Rainy
                 Day" goal by December.
               </p>
-              <button className="text-[#10331C] font-semibold border-b border-[#10331C] hover:opacity-70 text-sm">
+              <button className="text-[#10331C] dark:text-emerald-100 font-semibold border-b border-[#10331C] dark:border-emerald-100 hover:opacity-70 text-sm cursor-pointer">
                 Start Auto-Save
               </button>
             </div>
-            <Lightbulb className="absolute -right-4 -bottom-4 h-32 w-32 opacity-10 text-[#10331C]" />
+            <Lightbulb className="absolute -right-4 -bottom-4 h-32 w-32 opacity-10 text-[#10331C] dark:text-emerald-100" />
           </div>
 
           {/* Support Card */}
           <div className="bg-white p-8 rounded-lg text-center flex flex-col items-center gap-4 shadow-sm dark:bg-slate-900 dark:border dark:border-slate-800">
-            <div className="w-16 h-16 rounded-full bg-[#cbebce] flex items-center justify-center">
-              <MessageSquare className="h-8 w-8 text-[#10331C]" />
+            <div className="w-16 h-16 rounded-full bg-[#cbebce] dark:bg-emerald-950/40 flex items-center justify-center">
+              <MessageSquare className="h-8 w-8 text-[#10331C] dark:text-emerald-400" />
             </div>
             <div>
-              <h5 className="font-semibold text-stone-900">Need help?</h5>
-              <p className="text-sm text-stone-500">
+              <h5 className="font-semibold text-stone-900 dark:text-slate-100">Need help?</h5>
+              <p className="text-sm text-stone-500 dark:text-slate-400">
                 Our empathetic team is here for you.
               </p>
             </div>
-            <button className="text-[#D96C4A] font-semibold hover:opacity-70 text-sm">
+            <button
+              onClick={() => router.push("/oracle")}
+              className="text-[#D96C4A] dark:text-[#f39575] font-semibold hover:opacity-70 text-sm cursor-pointer"
+            >
               Chat with an advisor
             </button>
           </div>
         </div>
       </div>
+
+      {/* Accessibilities & Preferences Aware Payment Modal */}
+      {showPaymentModal && (
+        <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-slate-950/60 p-4 md:p-6 backdrop-blur-sm transition-all duration-300">
+          <div className={`bg-white dark:bg-slate-900 p-6 sm:p-8 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto 
+            ${preferences.dyslexia_font ? "font-mono tracking-wide leading-relaxed" : ""} 
+            ${preferences.high_contrast_mode ? "border-4 border-black dark:border-white rounded-none" : "border border-stone-100 dark:border-stone-700 rounded-t-[2rem] md:rounded-[2rem]"}
+          `}>
+            
+            {/* Calming reassurance banner for Anxiety Mode */}
+            {preferences.anxiety_mode && (
+              <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 dark:bg-emerald-950/30 dark:border-emerald-800 text-[#10331C] dark:text-emerald-300 text-xs sm:text-sm mb-6 flex items-start gap-3">
+                <span className="text-lg">🌱</span>
+                <div>
+                  <p className="font-semibold">Mindful Security Check</p>
+                  <p className="mt-1 opacity-90">Take a deep breath. Payments are processed securely with no extra transaction fees. There is absolutely no rush.</p>
+                </div>
+              </div>
+            )}
+
+            <h2 className="text-xl sm:text-2xl font-bold text-stone-900 dark:text-white mb-2 font-serif">
+              Pay Bill: {billName}
+            </h2>
+            <p className="text-xs sm:text-sm text-stone-500 dark:text-slate-400 mb-6">
+              {preferences.anxiety_mode 
+                ? "Select a payment preference to securely finish."
+                : "Execute a direct database transaction to complete your bill settlement instantly."
+              }
+            </p>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs sm:text-sm font-semibold text-stone-700 dark:text-slate-200 mb-2">
+                  Source Account Number
+                </label>
+                <input
+                  type="text"
+                  value={account_no}
+                  onChange={(e) => setAccount_no(e.target.value)}
+                  placeholder="Enter your account number"
+                  className={`w-full px-3 sm:px-4 py-2 sm:py-3 bg-white dark:bg-slate-955 text-sm sm:text-base text-[#111827] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#D96C4A]/20
+                    ${preferences.high_contrast_mode ? "border-2 border-black dark:border-white focus:border-red-600 rounded-none font-bold" : "border border-stone-200 dark:border-stone-600 rounded-xl focus:border-[#D96C4A]"}
+                  `}
+                />
+              </div>
+              <div>
+                <label className="block text-xs sm:text-sm font-semibold text-stone-700 dark:text-slate-200 mb-2">
+                  Destination Provider Account
+                </label>
+                <input
+                  type="text"
+                  value={destination_account}
+                  onChange={(e) => setDestination_account(e.target.value)}
+                  placeholder="Enter destination account"
+                  className={`w-full px-3 sm:px-4 py-2 sm:py-3 bg-white dark:bg-slate-955 text-sm sm:text-base text-[#111827] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#D96C4A]/20
+                    ${preferences.high_contrast_mode ? "border-2 border-black dark:border-white focus:border-red-600 rounded-none font-bold" : "border border-stone-200 dark:border-stone-600 rounded-xl focus:border-[#D96C4A]"}
+                  `}
+                />
+              </div>
+              <div>
+                <label className="block text-xs sm:text-sm font-semibold text-stone-700 dark:text-slate-200 mb-2 flex items-center justify-between">
+                  <span>Amount (₦)</span>
+                  {preferences.simplified_numbers && (
+                    <span className="text-[10px] uppercase font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full dark:bg-amber-950/20 dark:text-amber-350">
+                      Rounded for Simplicity
+                    </span>
+                  )}
+                </label>
+                <input
+                  type="number"
+                  step="0.01"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  placeholder="0.00"
+                  className={`w-full px-3 sm:px-4 py-2 sm:py-3 bg-white dark:bg-slate-955 text-sm sm:text-base text-[#111827] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#D96C4A]/20
+                    ${preferences.high_contrast_mode ? "border-2 border-black dark:border-white focus:border-red-600 rounded-none font-bold" : "border border-stone-200 dark:border-stone-600 rounded-xl focus:border-[#D96C4A]"}
+                  `}
+                />
+              </div>
+
+              {bankingError && (
+                <div className="p-3 sm:p-4 rounded-xl bg-rose-50 dark:bg-rose-955/20 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 text-xs sm:text-sm">
+                  {bankingError}
+                </div>
+              )}
+
+              {paymentSuccess && (
+                <div className="p-3 sm:p-4 rounded-xl bg-emerald-50 dark:bg-emerald-955/20 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 text-xs sm:text-sm">
+                  {paymentSuccess}
+                </div>
+              )}
+
+              <div className="flex flex-col gap-3 pt-4">
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    disabled={bankingLoading}
+                    onClick={() => handleBillPayment("transfer")}
+                    className={`flex-1 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-white font-semibold transition disabled:opacity-50 cursor-pointer
+                      ${preferences.high_contrast_mode ? "bg-black hover:bg-stone-850 dark:bg-white dark:text-black border border-black dark:border-white rounded-none" : "bg-[#D96C4A] hover:bg-[#c45b3f] rounded-full"}
+                    `}
+                  >
+                    {bankingLoading ? "Processing..." : "Pay via Transfer"}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={bankingLoading}
+                    onClick={() => handleBillPayment("withdraw")}
+                    className={`flex-1 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-white font-semibold transition disabled:opacity-50 cursor-pointer
+                      ${preferences.high_contrast_mode ? "bg-black hover:bg-stone-850 dark:bg-white dark:text-black border border-black dark:border-white rounded-none" : "bg-[#49654e] hover:bg-[#3b523f] rounded-full"}
+                    `}
+                  >
+                    {bankingLoading ? "Processing..." : "Pay via Withdrawal"}
+                  </button>
+                </div>
+                <button
+                  type="button"
+                  disabled={bankingLoading}
+                  onClick={() => setShowPaymentModal(false)}
+                  className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-semibold transition cursor-pointer
+                    ${preferences.high_contrast_mode ? "border border-black dark:border-white bg-transparent text-black dark:text-white rounded-none" : "border border-stone-200 dark:border-stone-600 text-stone-700 dark:text-slate-250 hover:bg-stone-50 dark:hover:bg-stone-800 rounded-full"}
+                  `}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Holographic scanner camera mockup scan modal */}
+      {showScanModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 p-4 backdrop-blur-md">
+          <div className="bg-white dark:bg-slate-900 rounded-[2rem] p-6 sm:p-8 max-w-md w-full shadow-2xl border border-stone-100 dark:border-slate-800 relative overflow-hidden">
+            
+            {/* Decorative holographic nodes */}
+            <div className="absolute -left-12 -top-12 w-32 h-32 bg-[#cbebce]/15 dark:bg-[#cbebce]/5 rounded-full blur-2xl"></div>
+
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-stone-900 dark:text-white font-serif flex items-center gap-2">
+                <Sparkles className="h-6 w-6 text-[#D96C4A]" />
+                Holographic Scan
+              </h2>
+              <button 
+                onClick={() => {
+                  setShowScanModal(false);
+                  setScanStatus("idle");
+                  setScanResult(null);
+                }}
+                className="p-2 rounded-full hover:bg-stone-100 dark:hover:bg-slate-800 text-stone-600 dark:text-slate-300"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <p className="text-xs sm:text-sm text-stone-500 dark:text-slate-400 mb-6">
+              Fit a banking QR code or invoice barcode within the scanning bounds to execute auto-detection.
+            </p>
+
+            <div className="space-y-6">
+              {/* Animated scan viewport area */}
+              <div className="aspect-square bg-slate-950 dark:bg-black rounded-2xl relative overflow-hidden flex items-center justify-center border-2 border-slate-800">
+                
+                {/* Simulated camera grid */}
+                <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                
+                {/* Camera corner brackets */}
+                <div className="absolute top-6 left-6 w-8 h-8 border-t-4 border-l-4 border-[#D96C4A]"></div>
+                <div className="absolute top-6 right-6 w-8 h-8 border-t-4 border-r-4 border-[#D96C4A]"></div>
+                <div className="absolute bottom-6 left-6 w-8 h-8 border-b-4 border-l-4 border-[#D96C4A]"></div>
+                <div className="absolute bottom-6 right-6 w-8 h-8 border-b-4 border-r-4 border-[#D96C4A]"></div>
+
+                {/* Pulsing scanning line */}
+                {scanStatus === "scanning" && (
+                  <div className="absolute left-0 w-full h-1 bg-[#D96C4A] shadow-[0_0_15px_#D96C4A] rounded animate-[scan_2.2s_infinite_ease-in-out]"></div>
+                )}
+
+                {scanStatus === "idle" && (
+                  <div className="text-center text-stone-400 p-6">
+                    <Camera className="h-12 w-12 mx-auto mb-3 opacity-60 text-slate-500" />
+                    <p className="text-xs">Camera Feed Ready</p>
+                  </div>
+                )}
+
+                {scanStatus === "scanning" && (
+                  <div className="text-center text-white">
+                    <p className="text-sm font-semibold tracking-wider animate-pulse text-[#D96C4A]">SCANNING IN PROCESS</p>
+                    <p className="text-[10px] text-stone-400 mt-1">Analyzing holographic image...</p>
+                  </div>
+                )}
+
+                {scanStatus === "success" && (
+                  <div className="text-center text-emerald-400 p-6 flex flex-col items-center">
+                    <CheckCircle2 className="h-16 w-16 mb-3 animate-bounce" />
+                    <p className="text-sm font-bold uppercase tracking-wider">HOLOGRAPHIC SUCCESS</p>
+                    <p className="text-[10px] text-stone-400 mt-1 max-w-[200px] break-words">{scanResult}</p>
+                  </div>
+                )}
+              </div>
+
+              {scanStatus === "idle" && (
+                <button
+                  type="button"
+                  onClick={handleStartScan}
+                  className="w-full h-14 bg-[#D96C4A] hover:bg-[#c45b3f] text-white font-semibold rounded-full shadow-lg shadow-[#D96C4A]/25 transition cursor-pointer"
+                >
+                  Start Active Scan
+                </button>
+              )}
+
+              {scanStatus === "scanning" && (
+                <button
+                  type="button"
+                  disabled
+                  className="w-full h-14 bg-stone-200 dark:bg-slate-800 text-stone-400 dark:text-slate-650 font-semibold rounded-full flex items-center justify-center gap-2"
+                >
+                  <div className="animate-spin h-5 w-5 border-2 border-stone-400 border-t-transparent rounded-full"></div>
+                  Analyzing viewport...
+                </button>
+              )}
+
+              {scanStatus === "success" && (
+                <button
+                  type="button"
+                  onClick={handleApplyScanResult}
+                  className="w-full h-14 bg-[#49654e] hover:bg-[#3b523f] text-white font-semibold rounded-full shadow-lg shadow-[#49654e]/25 transition cursor-pointer"
+                >
+                  Apply Scanned Invoice
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

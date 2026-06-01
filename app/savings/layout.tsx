@@ -15,7 +15,7 @@ export default function SavingsLayout({
   return (
     <div className="flex min-h-screen bg-[#FAFAF8] dark:bg-[#020617]">
       {/* Desktop Sidebar */}
-      <div className="hidden md:block md:w-56 fixed h-screen">
+      <div className="hidden md:block md:w-72 fixed h-screen">
         <Sidebar />
       </div>
 
@@ -37,7 +37,7 @@ export default function SavingsLayout({
       </div>
 
       {/* Main Content */}
-      <main className="w-full md:ml-56">
+      <main className="w-full md:ml-72">
         {/* Mobile Header */}
         <div className="md:hidden fixed top-0 left-0 right-0 z-20 bg-white dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700 px-4 py-3 flex items-center justify-between">
           <button

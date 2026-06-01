@@ -85,8 +85,9 @@ export default function PaymentsPage() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/payments/transfer/",
+        "http://localhost:8000/api/transfer/",
         {
+          recipient_email: recipient.trim(),
           recipient: recipient.trim(),
           account_number: accountNumber.trim(),
           amount: numericAmount,

@@ -41,9 +41,9 @@ export default function SavingsPage() {
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [showTransferModal, setShowTransferModal] = useState(false);
 
-  const [accountNo, setAccountNo] = useState("");
-  const [destinationAccount, setDestinationAccount] = useState("");
-  const [transactionAmount, setTransactionAmount] = useState("");
+  const [account_no, setAccount_no] = useState("");
+  const [destination_account, setDestination_account] = useState("");
+  const [amount, setAmount] = useState("");
   const [bankingLoading, setBankingLoading] = useState(false);
   const [bankingError, setBankingError] = useState<string | null>(null);
 
@@ -194,10 +194,58 @@ export default function SavingsPage() {
     }
   };
 
+  const extractOraError = (err: any): string => {
+    console.error("Banking operation failed:", err);
+    const data = err?.response?.data;
+    if (!data) return "Failed to process transaction. Please try again.";
+
+    const findOraPattern = (str: string) => {
+      const match = str.match(/ORA-\d+:[^"\n]*/);
+      return match ? match[0] : null;
+    };
+
+    if (typeof data === "string") {
+      const ora = findOraPattern(data);
+      if (ora) return ora;
+      return data;
+    }
+
+    const candidates = [data.error, data.detail, data.message, data.exception];
+    for (const val of candidates) {
+      if (typeof val === "string") {
+        const ora = findOraPattern(val);
+        if (ora) return ora;
+      }
+    }
+
+    if (typeof data === "object") {
+      for (const key of Object.keys(data)) {
+        const val = data[key];
+        if (typeof val === "string") {
+          const ora = findOraPattern(val);
+          if (ora) return ora;
+        } else if (Array.isArray(val) && typeof val[0] === "string") {
+          const ora = findOraPattern(val[0]);
+          if (ora) return ora;
+        }
+      }
+
+      for (const val of candidates) {
+        if (typeof val === "string") return val;
+      }
+
+      for (const key of Object.keys(data)) {
+        if (typeof data[key] === "string") return data[key];
+      }
+    }
+
+    return "Failed to process transaction. Please try again.";
+  };
+
   const resetBankingState = () => {
-    setAccountNo("");
-    setDestinationAccount("");
-    setTransactionAmount("");
+    setAccount_no("");
+    setDestination_account("");
+    setAmount("");
     setBankingError(null);
   };
 
@@ -209,13 +257,13 @@ export default function SavingsPage() {
       return;
     }
 
-    if (!accountNo.trim()) {
+    if (!account_no.trim()) {
       setBankingError("Please enter an account number.");
       return;
     }
 
-    const amount = parseFloat(transactionAmount);
-    if (Number.isNaN(amount) || amount <= 0) {
+    const parsedAmount = parseFloat(amount);
+    if (Number.isNaN(parsedAmount) || parsedAmount <= 0) {
       setBankingError("Please enter a valid amount.");
       return;
     }
@@ -225,10 +273,10 @@ export default function SavingsPage() {
 
     try {
       await axios.post(
-        "http://127.0.0.1:8000/api/bank/proc-deposit/",
+        "/api/bank/proc-deposit/",
         {
-          account_no: accountNo.trim(),
-          amount,
+          account_no: account_no.trim(),
+          amount: parsedAmount,
           staff_id: null,
         },
         {
@@ -241,12 +289,7 @@ export default function SavingsPage() {
       resetBankingState();
       setShowDepositModal(false);
     } catch (err: any) {
-      console.error("Deposit failed:", err);
-      setBankingError(
-        err?.response?.data?.error ||
-          err?.response?.data?.detail ||
-          "Failed to process deposit. Please try again.",
-      );
+      setBankingError(extractOraError(err));
     } finally {
       setBankingLoading(false);
     }
@@ -260,13 +303,13 @@ export default function SavingsPage() {
       return;
     }
 
-    if (!accountNo.trim()) {
+    if (!account_no.trim()) {
       setBankingError("Please enter an account number.");
       return;
     }
 
-    const amount = parseFloat(transactionAmount);
-    if (Number.isNaN(amount) || amount <= 0) {
+    const parsedAmount = parseFloat(amount);
+    if (Number.isNaN(parsedAmount) || parsedAmount <= 0) {
       setBankingError("Please enter a valid amount.");
       return;
     }
@@ -276,10 +319,10 @@ export default function SavingsPage() {
 
     try {
       await axios.post(
-        "http://127.0.0.1:8000/api/bank/proc-withdraw/",
+        "/api/bank/proc-withdraw/",
         {
-          account_no: accountNo.trim(),
-          amount,
+          account_no: account_no.trim(),
+          amount: parsedAmount,
           staff_id: null,
         },
         {
@@ -292,12 +335,7 @@ export default function SavingsPage() {
       resetBankingState();
       setShowWithdrawModal(false);
     } catch (err: any) {
-      console.error("Withdrawal failed:", err);
-      setBankingError(
-        err?.response?.data?.error ||
-          err?.response?.data?.detail ||
-          "Failed to process withdrawal. Please try again.",
-      );
+      setBankingError(extractOraError(err));
     } finally {
       setBankingLoading(false);
     }
@@ -311,13 +349,13 @@ export default function SavingsPage() {
       return;
     }
 
-    if (!accountNo.trim() || !destinationAccount.trim()) {
+    if (!account_no.trim() || !destination_account.trim()) {
       setBankingError("Please enter both source and destination accounts.");
       return;
     }
 
-    const amount = parseFloat(transactionAmount);
-    if (Number.isNaN(amount) || amount <= 0) {
+    const parsedAmount = parseFloat(amount);
+    if (Number.isNaN(parsedAmount) || parsedAmount <= 0) {
       setBankingError("Please enter a valid amount.");
       return;
     }
@@ -327,11 +365,11 @@ export default function SavingsPage() {
 
     try {
       await axios.post(
-        "http://127.0.0.1:8000/api/bank/proc-transfer/",
+        "/api/bank/proc-transfer/",
         {
-          source_account: accountNo.trim(),
-          destination_account: destinationAccount.trim(),
-          amount,
+          source_account: account_no.trim(),
+          destination_account: destination_account.trim(),
+          amount: parsedAmount,
         },
         {
           headers: {
@@ -343,12 +381,7 @@ export default function SavingsPage() {
       resetBankingState();
       setShowTransferModal(false);
     } catch (err: any) {
-      console.error("Transfer failed:", err);
-      setBankingError(
-        err?.response?.data?.error ||
-          err?.response?.data?.detail ||
-          "Failed to process transfer. Please try again.",
-      );
+      setBankingError(extractOraError(err));
     } finally {
       setBankingLoading(false);
     }
@@ -721,8 +754,8 @@ export default function SavingsPage() {
                 </label>
                 <input
                   type="text"
-                  value={accountNo}
-                  onChange={(e) => setAccountNo(e.target.value)}
+                  value={account_no}
+                  onChange={(e) => setAccount_no(e.target.value)}
                   placeholder="Enter Account Number"
                   className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-900 text-sm sm:text-base text-stone-900 dark:text-white focus:outline-none focus:border-[#D96C4A] focus:ring-2 focus:ring-[#D96C4A]/20"
                 />
@@ -734,8 +767,8 @@ export default function SavingsPage() {
                 <input
                   type="number"
                   step="0.01"
-                  value={transactionAmount}
-                  onChange={(e) => setTransactionAmount(e.target.value)}
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
                   placeholder="0.00"
                   className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-900 text-sm sm:text-base text-stone-900 dark:text-white focus:outline-none focus:border-[#D96C4A] focus:ring-2 focus:ring-[#D96C4A]/20"
                 />
@@ -780,8 +813,8 @@ export default function SavingsPage() {
                 </label>
                 <input
                   type="text"
-                  value={accountNo}
-                  onChange={(e) => setAccountNo(e.target.value)}
+                  value={account_no}
+                  onChange={(e) => setAccount_no(e.target.value)}
                   placeholder="Enter Account Number"
                   className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-900 text-sm sm:text-base text-stone-900 dark:text-white focus:outline-none focus:border-[#D96C4A] focus:ring-2 focus:ring-[#D96C4A]/20"
                 />
@@ -793,8 +826,8 @@ export default function SavingsPage() {
                 <input
                   type="number"
                   step="0.01"
-                  value={transactionAmount}
-                  onChange={(e) => setTransactionAmount(e.target.value)}
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
                   placeholder="0.00"
                   className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-900 text-sm sm:text-base text-stone-900 dark:text-white focus:outline-none focus:border-[#D96C4A] focus:ring-2 focus:ring-[#D96C4A]/20"
                 />
@@ -839,8 +872,8 @@ export default function SavingsPage() {
                 </label>
                 <input
                   type="text"
-                  value={accountNo}
-                  onChange={(e) => setAccountNo(e.target.value)}
+                  value={account_no}
+                  onChange={(e) => setAccount_no(e.target.value)}
                   placeholder="Enter Source Account"
                   className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-900 text-sm sm:text-base text-stone-900 dark:text-white focus:outline-none focus:border-[#D96C4A] focus:ring-2 focus:ring-[#D96C4A]/20"
                 />
@@ -851,8 +884,8 @@ export default function SavingsPage() {
                 </label>
                 <input
                   type="text"
-                  value={destinationAccount}
-                  onChange={(e) => setDestinationAccount(e.target.value)}
+                  value={destination_account}
+                  onChange={(e) => setDestination_account(e.target.value)}
                   placeholder="Enter Destination Account"
                   className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-900 text-sm sm:text-base text-stone-900 dark:text-white focus:outline-none focus:border-[#D96C4A] focus:ring-2 focus:ring-[#D96C4A]/20"
                 />
@@ -864,8 +897,8 @@ export default function SavingsPage() {
                 <input
                   type="number"
                   step="0.01"
-                  value={transactionAmount}
-                  onChange={(e) => setTransactionAmount(e.target.value)}
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
                   placeholder="0.00"
                   className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-900 text-sm sm:text-base text-stone-900 dark:text-white focus:outline-none focus:border-[#D96C4A] focus:ring-2 focus:ring-[#D96C4A]/20"
                 />
