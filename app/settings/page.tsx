@@ -102,10 +102,10 @@ export default function SettingsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#fcf9f2] dark:bg-stone-900 p-4">
+      <div className="min-h-screen flex items-center justify-center bg-background dark:bg-background-dim p-4">
         <div className="text-center">
           <span className="text-4xl animate-bounce mb-4 inline-block">⚙️</span>
-          <p className="text-sm sm:text-base text-stone-700 dark:text-slate-200">
+          <p className="text-sm sm:text-base text-text-primary dark:text-slate-200">
             Loading your settings...
           </p>
         </div>
@@ -115,15 +115,15 @@ export default function SettingsPage() {
 
   if (error && !preferences) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#fcf9f2] dark:bg-stone-900 p-4">
-        <div className="max-w-xl rounded-3xl border border-red-200 bg-red-50 p-6 sm:p-8 text-red-700 shadow-sm dark:border-red-800 dark:bg-slate-900 dark:text-red-200">
-          <h2 className="mb-3 text-lg sm:text-2xl font-semibold">
+      <div className="min-h-screen flex items-center justify-center bg-background dark:bg-background-dim p-4">
+        <div className="max-w-xl rounded-xl border border-red-200 bg-red-50 p-6 sm:p-8 text-red-700 shadow-sm dark:border-red-800 dark:bg-surface dark:text-red-200">
+          <h2 className="mb-3 text-lg sm:text-2xl font-semibold font-serif">
             Settings error
           </h2>
           <p className="mb-4 text-xs sm:text-sm leading-6">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="rounded-full bg-[#D96C4A] px-6 py-3 text-xs sm:text-sm font-semibold text-white hover:bg-[#c45b3f] transition"
+            className="rounded-full bg-primary px-6 py-3 text-xs sm:text-sm font-semibold text-white hover:bg-primary-hover transition"
           >
             Try again
           </button>
@@ -133,14 +133,14 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#fcf9f2] dark:bg-stone-900 px-3 sm:px-6 py-6 sm:py-8">
+    <div className="min-h-screen bg-background dark:bg-background-dim px-3 sm:px-6 py-6 sm:py-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <header className="mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-4xl font-bold text-[#111827] dark:text-white mb-2">
+          <h1 className="text-2xl sm:text-4xl font-bold text-text-primary dark:text-white mb-2 font-serif">
             Settings
           </h1>
-          <p className="text-sm sm:text-base text-stone-600 dark:text-slate-300">
+          <p className="text-sm sm:text-base text-text-secondary dark:text-slate-300">
             Tailor your banking experience to your needs.
           </p>
         </header>
@@ -158,13 +158,13 @@ export default function SettingsPage() {
             <button className="w-full text-left px-4 py-3 rounded-xl bg-[#49654e] text-white font-semibold transition">
               Inclusion
             </button>
-            <button className="w-full text-left px-4 py-3 rounded-xl text-stone-600 dark:text-slate-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition">
+            <button className="w-full text-left px-4 py-3 rounded-xl text-text-secondary dark:text-slate-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition">
               Profile
             </button>
-            <button className="w-full text-left px-4 py-3 rounded-xl text-stone-600 dark:text-slate-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition">
+            <button className="w-full text-left px-4 py-3 rounded-xl text-text-secondary dark:text-slate-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition">
               Privacy
             </button>
-            <button className="w-full text-left px-4 py-3 rounded-xl text-stone-600 dark:text-slate-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition">
+            <button className="w-full text-left px-4 py-3 rounded-xl text-text-secondary dark:text-slate-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition">
               Alerts
             </button>
           </nav>
@@ -172,23 +172,23 @@ export default function SettingsPage() {
           {/* Main Content */}
           <div className="space-y-6">
             {/* Cognitive & Visual Accessibility Panel */}
-            <div className="bg-white dark:bg-stone-800 rounded-2xl p-4 sm:p-6 shadow-sm">
-              <h2 className="text-lg sm:text-xl font-semibold text-[#111827] dark:text-white mb-6">
+            <div className="bg-surface dark:bg-surface rounded-2xl p-4 sm:p-6 shadow-sm">
+              <h2 className="text-lg sm:text-xl font-semibold text-text-primary dark:text-white mb-6 font-serif">
                 Cognitive & Visual Accessibility
               </h2>
 
               <div className="space-y-4">
                 {/* Dyslexia Friendly Font */}
-                <div className="flex items-center justify-between p-4 rounded-xl bg-[#F4F1EA] dark:bg-stone-900">
+                <div className="flex items-center justify-between p-4 rounded-xl bg-[#F4F1EA] dark:bg-background-dim">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#D96C4A]/10 text-[#D96C4A]">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
                       <Type className="h-5 w-5" />
                     </div>
                     <div>
-                      <p className="font-semibold text-[#111827] dark:text-white">
+                      <p className="font-semibold text-text-primary dark:text-white">
                         Dyslexia Friendly Font
                       </p>
-                      <p className="text-xs text-stone-600 dark:text-slate-300">
+                      <p className="text-xs text-text-secondary dark:text-slate-300">
                         Easier to read typography
                       </p>
                     </div>
@@ -205,7 +205,7 @@ export default function SettingsPage() {
                     } ${updating === "dyslexia_font" ? "opacity-50" : ""}`}
                   >
                     <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                      className={`inline-block h-4 w-4 transform rounded-full bg-surface transition-transform ${
                         preferences.dyslexia_font
                           ? "translate-x-6"
                           : "translate-x-1"
@@ -215,27 +215,27 @@ export default function SettingsPage() {
                 </div>
 
                 {/* Simplified Numbers */}
-                <div className="flex items-center justify-between p-4 rounded-xl bg-[#F4F1EA] dark:bg-stone-900">
+                <div className="flex items-center justify-between p-4 rounded-xl bg-[#F4F1EA] dark:bg-background-dim">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#D96C4A]/10 text-[#D96C4A]">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
                       <Hash className="h-5 w-5" />
                     </div>
                     <div>
-                      <p className="font-semibold text-[#111827] dark:text-white">
+                      <p className="font-semibold text-text-primary dark:text-white">
                         Simplified Numbers
                       </p>
-                      <p className="text-xs text-stone-600 dark:text-slate-300">
+                      <p className="text-xs text-text-secondary dark:text-slate-300">
                         Round numbers for clarity
                       </p>
                     </div>
                   </div>
-                  <div className="flex rounded-full bg-white dark:bg-stone-700 p-1">
+                  <div className="flex rounded-full bg-surface dark:bg-stone-700 p-1">
                     <button
                       onClick={() => handleToggle("simplified_numbers", true)}
                       className={`px-3 py-1 text-xs font-semibold rounded-full transition ${
                         preferences.simplified_numbers
                           ? "bg-[#49654e] text-white"
-                          : "text-stone-600 dark:text-slate-300"
+                          : "text-text-secondary dark:text-slate-300"
                       } ${updating === "simplified_numbers" ? "opacity-50" : ""}`}
                     >
                       Simplified
@@ -245,7 +245,7 @@ export default function SettingsPage() {
                       className={`px-3 py-1 text-xs font-semibold rounded-full transition ${
                         !preferences.simplified_numbers
                           ? "bg-[#49654e] text-white"
-                          : "text-stone-600 dark:text-slate-300"
+                          : "text-text-secondary dark:text-slate-300"
                       } ${updating === "simplified_numbers" ? "opacity-50" : ""}`}
                     >
                       Exact
@@ -254,16 +254,16 @@ export default function SettingsPage() {
                 </div>
 
                 {/* Anxiety Mode */}
-                <div className="flex items-center justify-between p-4 rounded-xl bg-[#F4F1EA] dark:bg-stone-900">
+                <div className="flex items-center justify-between p-4 rounded-xl bg-[#F4F1EA] dark:bg-background-dim">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#D96C4A]/10 text-[#D96C4A]">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
                       <Shield className="h-5 w-5" />
                     </div>
                     <div>
-                      <p className="font-semibold text-[#111827] dark:text-white">
+                      <p className="font-semibold text-text-primary dark:text-white">
                         Anxiety Mode
                       </p>
-                      <p className="text-xs text-stone-600 dark:text-slate-300">
+                      <p className="text-xs text-text-secondary dark:text-slate-300">
                         Reduced cognitive load
                       </p>
                     </div>
@@ -280,7 +280,7 @@ export default function SettingsPage() {
                     } ${updating === "anxiety_mode" ? "opacity-50" : ""}`}
                   >
                     <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                      className={`inline-block h-4 w-4 transform rounded-full bg-surface transition-transform ${
                         preferences.anxiety_mode
                           ? "translate-x-6"
                           : "translate-x-1"
@@ -290,16 +290,16 @@ export default function SettingsPage() {
                 </div>
 
                 {/* High Contrast Mode */}
-                <div className="flex items-center justify-between p-4 rounded-xl bg-[#F4F1EA] dark:bg-stone-900">
+                <div className="flex items-center justify-between p-4 rounded-xl bg-[#F4F1EA] dark:bg-background-dim">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#D96C4A]/10 text-[#D96C4A]">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
                       <Contrast className="h-5 w-5" />
                     </div>
                     <div>
-                      <p className="font-semibold text-[#111827] dark:text-white">
+                      <p className="font-semibold text-text-primary dark:text-white">
                         High Contrast Mode
                       </p>
-                      <p className="text-xs text-stone-600 dark:text-slate-300">
+                      <p className="text-xs text-text-secondary dark:text-slate-300">
                         Better visibility
                       </p>
                     </div>
@@ -319,7 +319,7 @@ export default function SettingsPage() {
                     } ${updating === "high_contrast_mode" ? "opacity-50" : ""}`}
                   >
                     <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                      className={`inline-block h-4 w-4 transform rounded-full bg-surface transition-transform ${
                         preferences.high_contrast_mode
                           ? "translate-x-6"
                           : "translate-x-1"
@@ -335,21 +335,21 @@ export default function SettingsPage() {
               <div className="bg-[#49654e] text-white rounded-2xl p-4 sm:p-6 shadow-sm">
                 <div className="flex items-center gap-3 mb-3">
                   <BookOpen className="h-6 w-6" />
-                  <h3 className="font-semibold">Interactive Tutorial</h3>
+                  <h3 className="font-semibold font-serif">Interactive Tutorial</h3>
                 </div>
                 <p className="text-sm opacity-90">
                   Learn how to use all features with guided walkthroughs.
                 </p>
               </div>
 
-              <div className="bg-[#F4F1EA] dark:bg-stone-800 rounded-2xl p-4 sm:p-6 shadow-sm">
+              <div className="bg-[#F4F1EA] dark:bg-surface rounded-2xl p-4 sm:p-6 shadow-sm">
                 <div className="flex items-center gap-3 mb-3">
-                  <Eye className="h-6 w-6 text-[#D96C4A]" />
-                  <h3 className="font-semibold text-[#111827] dark:text-white">
+                  <Eye className="h-6 w-6 text-primary" />
+                  <h3 className="font-semibold text-text-primary dark:text-white font-serif">
                     You're in control
                   </h3>
                 </div>
-                <p className="text-sm text-stone-600 dark:text-slate-300">
+                <p className="text-sm text-text-secondary dark:text-slate-300">
                   Customize every aspect of your banking experience.
                 </p>
               </div>

@@ -128,25 +128,25 @@ export default function Sidebar() {
   return (
     <>
       {/* Desktop Sidebar */}
-      <aside className="hidden md:flex fixed left-0 top-0 h-full flex-col py-8 bg-[#fbfbf8] text-[#3c3730] dark:bg-[#100f0d] dark:text-[#f8eee4] w-72 border-r border-[#e5e2db] dark:border-[#1c1a18] z-50">
+      <aside className="hidden md:flex fixed left-0 top-0 h-full flex-col py-8 bg-surface text-text-primary w-72 border-r border-border-sand z-50">
         {/* Logo */}
         <div className="px-8 mb-12 flex items-center gap-3">
-          <div className="h-10 w-10 rounded-full bg-[#D96C4A] flex items-center justify-center text-white font-bold text-lg">
+          <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-background font-serif font-bold text-xl">
             H
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-stone-900 dark:text-[#FDE0D2] font-serif italic leading-none">
+            <h1 className="text-2xl font-serif font-bold text-text-primary italic leading-none">
               Horizon
             </h1>
-            <p className="text-[10px] uppercase tracking-widest text-[#786c62] dark:text-[#d6cabf] mt-1">
+            <p className="text-[10px] uppercase tracking-[0.25em] text-text-secondary mt-1 font-sans">
               Inclusion
             </p>
           </div>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto px-4">
-          <div className="space-y-2">
+        <nav className="flex-1 overflow-y-auto px-4 custom-scrollbar">
+          <div className="space-y-1.5">
             {visibleNavItems.map((item) => {
               const Icon = item.icon;
               const isActive = pathname === item.href;
@@ -154,14 +154,14 @@ export default function Sidebar() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center gap-4 rounded-full px-6 py-4 mx-4 transition-all duration-300 ${
+                  className={`flex items-center gap-4 rounded-xl px-5 py-3.5 mx-2 transition-all duration-255 font-sans ${
                     isActive
-                      ? "bg-[#D96C4A] text-white shadow-lg shadow-[#D96C4A]/20"
-                      : "text-[#786c62] dark:text-[#d6cabf] hover:bg-[#eae8e3] dark:hover:bg-[#1b1917]"
+                      ? "bg-primary text-background shadow-subtle font-medium"
+                      : "text-text-secondary hover:bg-background-dim hover:text-text-primary"
                   }`}
                 >
-                  <Icon className="h-5 w-5" />
-                  <span className="text-lg">{item.name}</span>
+                  <Icon className="h-5 w-5 shrink-0" />
+                  <span className="text-[15px]">{item.name}</span>
                 </Link>
               );
             })}
@@ -169,42 +169,42 @@ export default function Sidebar() {
         </nav>
 
         {/* Theme Toggle */}
-        <div className="border-t border-[#e5e2db] dark:border-[#1c1a18] pt-6 px-6">
+        <div className="border-t border-border-sand pt-6 px-6">
           <button
             onClick={handleToggleTheme}
-            className="mb-4 flex w-full items-center justify-between rounded-full border border-[#d2ccc4] bg-[#f5f3ee] dark:border-[#2a2521] dark:bg-[#1b1917] px-5 py-4 text-sm font-semibold text-[#5a5046] dark:text-[#eee1d3] transition hover:bg-[#eae6de] dark:hover:bg-[#2a2521]"
+            className="mb-4 flex w-full items-center justify-between rounded-xl border border-border-sand bg-background-dim px-4 py-3 text-sm font-semibold text-text-primary transition hover:bg-background/80"
           >
             <span>{theme === "dark" ? "Light mode" : "Dark mode"}</span>
             {theme === "dark" ? (
-              <Sun className="h-5 w-5" />
+              <Sun className="h-4 w-4" />
             ) : (
-              <Moon className="h-5 w-5" />
+              <Moon className="h-4 w-4" />
             )}
           </button>
           <button
             onClick={handleSignOut}
-            className="flex items-center gap-4 text-[#786c62] dark:text-[#e7d8c8] px-6 py-4 rounded-full hover:bg-[#eae8e3] dark:hover:bg-[#1a1816] transition-all duration-300 w-full"
+            className="flex items-center gap-4 text-text-secondary px-5 py-3 rounded-xl hover:bg-background-dim hover:text-text-primary transition-all duration-200 w-full text-left"
           >
-            <LogOut className="h-5 w-5" />
-            <span className="text-lg">Sign Out</span>
+            <LogOut className="h-4 w-4" />
+            <span className="text-sm font-medium">Sign Out</span>
           </button>
         </div>
       </aside>
 
       {/* Mobile Top Bar */}
-      <div className="md:hidden fixed top-0 left-0 w-full h-16 bg-[#fbfbf8] border-b border-[#e5e2db] dark:bg-[#100f0d] dark:border-[#1c1a18] z-50 flex items-center justify-between px-6">
+      <div className="md:hidden fixed top-0 left-0 w-full h-16 bg-surface border-b border-border-sand z-50 flex items-center justify-between px-6">
         <div className="flex items-center gap-3">
-          <div className="h-8 w-8 rounded-full bg-[#D96C4A] flex items-center justify-center text-white font-bold text-sm">
+          <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-background font-serif font-bold text-sm">
             H
           </div>
-          <h1 className="text-xl font-bold text-stone-900 dark:text-[#FDE0D2] font-serif italic leading-none">
+          <h1 className="text-xl font-bold text-text-primary font-serif italic leading-none">
             Horizon
           </h1>
         </div>
         <div className="flex items-center gap-4">
           <button
             onClick={handleToggleTheme}
-            className="text-[#786c62] dark:text-[#eee1d3] hover:text-[#D96C4A] dark:hover:text-white"
+            className="text-text-secondary hover:text-primary transition-colors"
             aria-label="Toggle theme"
           >
             {theme === "dark" ? (
@@ -215,7 +215,7 @@ export default function Sidebar() {
           </button>
           <button
             onClick={handleSignOut}
-            className="text-[#786c62] dark:text-[#eee1d3] hover:text-[#D96C4A] dark:hover:text-white"
+            className="text-text-secondary hover:text-primary transition-colors"
             aria-label="Sign out"
           >
             <LogOut className="h-5 w-5" />
@@ -224,7 +224,7 @@ export default function Sidebar() {
       </div>
 
       {/* Mobile Bottom Nav */}
-      <nav className="md:hidden fixed bottom-0 left-0 w-full bg-[#fbfbf8] border-t border-[#e5e2db] dark:bg-[#100f0d] dark:border-[#1c1a18] z-50 flex items-center justify-around p-2 pb-safe">
+      <nav className="md:hidden fixed bottom-0 left-0 w-full bg-surface border-t border-border-sand z-50 flex items-center justify-around p-2 pb-safe">
         {visibleNavItems.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
@@ -232,12 +232,12 @@ export default function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center justify-center w-16 h-14 gap-1 rounded-xl transition-all duration-300 ${
-                isActive ? "text-[#D96C4A]" : "text-[#786c62] dark:text-[#d6cabf] hover:text-[#D96C4A] dark:hover:text-white"
+              className={`flex flex-col items-center justify-center w-16 h-14 gap-1 rounded-xl transition-all duration-200 ${
+                isActive ? "text-primary font-semibold" : "text-text-secondary hover:text-primary"
               }`}
             >
               <Icon className="h-5 w-5" />
-              <span className="text-[10px] font-medium">{item.name}</span>
+              <span className="text-[10px] font-sans">{item.name}</span>
             </Link>
           );
         })}

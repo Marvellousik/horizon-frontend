@@ -148,25 +148,25 @@ export default function OraclePage() {
 
   if (loading) {
     return (
-      <div className="flex-1 flex items-center justify-center bg-[#fcf9f2] dark:bg-stone-900">
+      <div className="flex-1 flex items-center justify-center bg-background dark:bg-background-dim">
         <div className="text-center">
-          <div className="animate-spin inline-block w-8 h-8 border-4 border-[#D96C4A]/20 border-t-[#D96C4A] rounded-full mb-4" />
-          <p className="text-stone-600 dark:text-slate-400">Loading Oracle...</p>
+          <div className="animate-spin inline-block w-8 h-8 border-4 border-primary/20 border-t-[#D96C4A] rounded-full mb-4" />
+          <p className="text-text-secondary dark:text-slate-400">Loading Oracle...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <main className="flex-1 flex bg-[#fcf9f2] dark:bg-stone-900 overflow-hidden">
+    <main className="flex-1 flex bg-background dark:bg-background-dim overflow-hidden">
       {/* Center Chat Column */}
-      <section className="flex-1 flex flex-col border-r border-stone-200 dark:border-stone-700">
+      <section className="flex-1 flex flex-col border-r border-border-sand dark:border-border-sand/40">
         {/* Header */}
-        <header className="border-b border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 px-8 py-6 sticky top-0 z-10">
-          <h2 className="text-2xl font-bold text-[#111827] dark:text-white mb-1">
+        <header className="border-b border-border-sand dark:border-border-sand/40 bg-surface dark:bg-surface px-8 py-6 sticky top-0 z-10">
+          <h2 className="text-2xl font-bold text-text-primary dark:text-white mb-1 font-serif">
             Oracle Guidance
           </h2>
-          <p className="text-sm text-stone-600 dark:text-slate-400">
+          <p className="text-sm text-text-secondary dark:text-slate-400">
             Your financial well-being, prioritized.
           </p>
         </header>
@@ -179,13 +179,13 @@ export default function OraclePage() {
           {chat.length === 0 ? (
             <div className="flex items-center justify-center h-full text-center">
               <div>
-                <div className="w-16 h-16 rounded-full bg-[#D96C4A]/10 flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                   <span className="text-3xl">✨</span>
                 </div>
-                <p className="text-stone-600 dark:text-slate-400 mb-2">
+                <p className="text-text-secondary dark:text-slate-400 mb-2">
                   Welcome to Horizon Oracle
                 </p>
-                <p className="text-sm text-stone-500 dark:text-slate-500">
+                <p className="text-sm text-text-secondary dark:text-text-secondary">
                   Ask me anything about your finances
                 </p>
               </div>
@@ -215,8 +215,8 @@ export default function OraclePage() {
                     <div
                       className={`px-6 py-4 rounded-lg ${
                         msg.role === "user"
-                          ? "bg-[#D96C4A] text-white rounded-br-none"
-                          : "bg-white dark:bg-stone-800 text-[#111827] dark:text-white border border-[#C8E8CB]/30 rounded-bl-none"
+                          ? "bg-primary text-white rounded-br-none"
+                          : "bg-surface dark:bg-surface text-text-primary dark:text-white border border-[#C8E8CB]/30 rounded-bl-none"
                       }`}
                     >
                       <p className="text-sm sm:text-base leading-relaxed">
@@ -231,7 +231,7 @@ export default function OraclePage() {
                   </div>
 
                   {msg.role === "user" && (
-                    <div className="w-10 h-10 rounded-full bg-[#D96C4A] flex items-center justify-center shrink-0 text-white font-bold text-sm">
+                    <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0 text-white font-bold text-sm">
                       A
                     </div>
                   )}
@@ -243,7 +243,7 @@ export default function OraclePage() {
                   <div className="w-10 h-10 rounded-full bg-[#C8E8CB] flex items-center justify-center shrink-0">
                     <span className="text-lg">✨</span>
                   </div>
-                  <div className="bg-white dark:bg-stone-800 px-6 py-4 rounded-lg border border-[#C8E8CB]/30 rounded-bl-none">
+                  <div className="bg-surface dark:bg-surface px-6 py-4 rounded-lg border border-[#C8E8CB]/30 rounded-bl-none">
                     <div className="flex gap-1">
                       <div className="w-2 h-2 bg-stone-400 rounded-full animate-bounce" />
                       <div className="w-2 h-2 bg-stone-400 rounded-full animate-bounce delay-100" />
@@ -257,7 +257,7 @@ export default function OraclePage() {
         </div>
 
         {/* Input Area */}
-        <div className="border-t border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 px-8 py-6">
+        <div className="border-t border-border-sand dark:border-border-sand/40 bg-surface dark:bg-surface px-8 py-6">
           <form onSubmit={handleSendMessage} className="relative">
             <input
               type="text"
@@ -265,33 +265,33 @@ export default function OraclePage() {
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Ask the Oracle..."
               disabled={sending}
-              className="w-full px-6 py-4 pr-16 rounded-full border border-stone-200 dark:border-stone-600 bg-stone-50 dark:bg-stone-700 text-[#111827] dark:text-white placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-[#D96C4A]"
+              className="w-full px-6 py-4 pr-16 rounded-full border border-border-sand dark:border-stone-600 bg-background-dim dark:bg-stone-700 text-text-primary dark:text-white placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-[#D96C4A]"
             />
             <button
               type="submit"
               disabled={sending || !inputValue.trim()}
-              className="absolute right-2 top-2 w-12 h-12 bg-[#D96C4A] hover:bg-[#c45b3f] disabled:bg-stone-300 text-white rounded-full flex items-center justify-center transition"
+              className="absolute right-2 top-2 w-12 h-12 bg-primary hover:bg-primary-hover disabled:bg-stone-300 text-white rounded-full flex items-center justify-center transition"
             >
               <Send className="w-5 h-5" />
             </button>
           </form>
-          <p className="text-center text-xs text-stone-500 dark:text-slate-500 mt-3">
+          <p className="text-center text-xs text-text-secondary dark:text-text-secondary mt-3">
             Horizon Oracle uses empathetic AI to support your financial journey. Decisions should be verified with your advisor.
           </p>
         </div>
       </section>
 
       {/* Right Column - Conversation History */}
-      <aside className="hidden lg:flex lg:w-80 bg-stone-50 dark:bg-stone-900 border-l border-[#e5e2db] dark:border-stone-700 overflow-y-auto p-6 flex-col shrink-0">
+      <aside className="hidden lg:flex lg:w-80 bg-background-dim dark:bg-background-dim border-l border-border-sand dark:border-border-sand/40 overflow-y-auto p-6 flex-col shrink-0">
         {/* Header */}
-        <h3 className="text-xs uppercase tracking-widest text-stone-500 dark:text-slate-400 font-semibold mb-4">
+        <h3 className="text-xs uppercase tracking-widest text-text-secondary dark:text-slate-400 font-semibold mb-4 font-serif">
           Conversation History
         </h3>
 
         {/* New Inquiry Button */}
         <button
           onClick={startNewInquiry}
-          className="w-full py-3 mb-6 bg-[#D96C4A] hover:bg-[#c45b3f] text-white text-sm font-semibold rounded-full transition"
+          className="w-full py-3 mb-6 bg-primary hover:bg-primary-hover text-white text-sm font-semibold rounded-full transition"
         >
           New Inquiry
         </button>
@@ -299,7 +299,7 @@ export default function OraclePage() {
         {/* Conversations List */}
         <div className="flex-1 space-y-2 overflow-y-auto">
           {conversations.length === 0 ? (
-            <p className="text-xs text-stone-400 dark:text-slate-500 italic py-4">
+            <p className="text-xs text-stone-400 dark:text-text-secondary italic py-4">
               No conversations yet. Start a new inquiry.
             </p>
           ) : (
@@ -309,8 +309,8 @@ export default function OraclePage() {
                 onClick={() => loadConversation(conv.id)}
                 className={`w-full text-left px-4 py-3 rounded-lg transition ${
                   activeConversationId === conv.id
-                    ? "bg-[#D96C4A] text-white"
-                    : "bg-white dark:bg-stone-800 text-[#111827] dark:text-slate-200 hover:bg-stone-100 dark:hover:bg-stone-700"
+                    ? "bg-primary text-white"
+                    : "bg-surface dark:bg-surface text-text-primary dark:text-slate-200 hover:bg-stone-100 dark:hover:bg-stone-700"
                 }`}
               >
                 <p className="text-sm font-semibold truncate">{conv.title}</p>

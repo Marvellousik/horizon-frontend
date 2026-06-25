@@ -47,14 +47,14 @@ const getCategoryIcon = (category?: string) => {
 
   switch (normalizedCategory) {
     case "groceries":
-      return <ShoppingCart className="h-5 w-5 text-[#49654e] dark:text-emerald-400" />;
+      return <ShoppingCart className="h-5 w-5 text-primary dark:text-emerald-400" />;
     case "dining":
-      return <Coffee className="h-5 w-5 text-[#D96C4A] dark:text-orange-400" />;
+      return <Coffee className="h-5 w-5 text-primary dark:text-orange-400" />;
     case "housing":
     case "rent":
       return <Home className="h-5 w-5 text-[#4a6153] dark:text-teal-400" />;
     default:
-      return <ShoppingCart className="h-5 w-5 text-stone-600 dark:text-slate-400" />;
+      return <ShoppingCart className="h-5 w-5 text-text-secondary dark:text-slate-400" />;
   }
 };
 
@@ -347,16 +347,16 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#fcf9f2] dark:bg-[#020617] p-6">
-        <div className="text-stone-600 dark:text-slate-200">Loading dashboard...</div>
+      <div className="min-h-screen flex items-center justify-center bg-background  p-6">
+        <div className="text-text-secondary dark:text-slate-200">Loading dashboard...</div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#fcf9f2] dark:bg-[#020617] p-6">
-        <div className="rounded-lg border border-red-200 bg-red-50 dark:bg-slate-900 p-4 text-red-700 dark:text-red-400">
+      <div className="min-h-screen flex items-center justify-center bg-background  p-6">
+        <div className="rounded-lg border border-red-200 bg-red-50 dark:bg-surface p-4 text-red-700 dark:text-red-400">
           {error}
         </div>
       </div>
@@ -365,14 +365,14 @@ export default function Dashboard() {
 
   if (!data) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#fcf9f2] dark:bg-[#020617] p-6">
-        <div className="text-stone-600 dark:text-slate-200">No data available</div>
+      <div className="min-h-screen flex items-center justify-center bg-background  p-6">
+        <div className="text-text-secondary dark:text-slate-200">No data available</div>
       </div>
     );
   }
 
   return (
-    <main className="min-h-screen px-4 md:px-12 py-6 md:py-10 max-w-7xl mx-auto bg-[#fcf9f2] dark:bg-[#020617]">
+    <main className="min-h-screen px-4 md:px-12 py-6 md:py-10 max-w-7xl mx-auto bg-background ">
       <style>{`
         @keyframes scan {
           0%, 100% { top: 0%; opacity: 0.8; }
@@ -383,10 +383,10 @@ export default function Dashboard() {
       {/* Welcome Header & Quick Actions */}
       <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
         <div>
-          <h2 className="text-3xl md:text-5xl font-serif font-bold text-stone-900 dark:text-slate-100 mb-2">
+          <h2 className="text-3xl md:text-5xl font-serif font-bold text-text-primary dark:text-slate-100 mb-2">
             Hello, {displayName || data.username}
           </h2>
-          <p className="text-base md:text-lg text-stone-500 dark:text-slate-350 max-w-md">
+          <p className="text-base md:text-lg text-text-secondary dark:text-slate-350 max-w-md">
             Take a deep breath. Your finances are looking steady today.
           </p>
         </div>
@@ -395,7 +395,7 @@ export default function Dashboard() {
         <div className="flex gap-3 overflow-x-auto pb-2 md:overflow-visible">
           <button
             onClick={() => router.push("/savings")}
-            className="flex items-center gap-3 bg-[#D96C4A] text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-semibold shadow-lg shadow-[#D96C4A]/20 hover:opacity-90 transition-all active:scale-[0.98] whitespace-nowrap cursor-pointer"
+            className="flex items-center gap-3 bg-primary text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-semibold shadow-lg shadow-[#D96C4A]/20 hover:opacity-90 transition-all active:scale-[0.98] whitespace-nowrap cursor-pointer"
           >
             <Send className="h-5 w-5" />
             <span className="inline">Transfer</span>
@@ -409,7 +409,7 @@ export default function Dashboard() {
               setPaymentSuccess(null);
               setShowPaymentModal(true);
             }}
-            className="flex items-center gap-3 bg-[#cbebce] text-[#10331C] px-6 md:px-8 py-3 md:py-4 rounded-full font-semibold hover:bg-[#b3deb8] transition-all active:scale-[0.98] whitespace-nowrap cursor-pointer"
+            className="flex items-center gap-3 bg-secondary/20 text-text-primary font-serif px-6 md:px-8 py-3 md:py-4 rounded-full font-semibold hover:bg-[#b3deb8] transition-all active:scale-[0.98] whitespace-nowrap cursor-pointer"
           >
             <ShoppingCart className="h-5 w-5" />
             <span className="inline">Pay</span>
@@ -420,7 +420,7 @@ export default function Dashboard() {
               setScanResult(null);
               setShowScanModal(true);
             }}
-            className="flex items-center gap-3 bg-stone-100 text-stone-700 dark:bg-slate-800 dark:text-slate-100 px-6 md:px-8 py-3 md:py-4 rounded-full font-semibold hover:bg-stone-200 dark:hover:bg-slate-700 transition-all active:scale-[0.98] whitespace-nowrap cursor-pointer"
+            className="flex items-center gap-3 bg-stone-100 text-text-primary dark:bg-slate-800 dark:text-slate-100 px-6 md:px-8 py-3 md:py-4 rounded-full font-semibold hover:bg-stone-200 dark:hover:bg-slate-700 transition-all active:scale-[0.98] whitespace-nowrap cursor-pointer"
           >
             <Maximize className="h-5 w-5" />
             <span className="inline">Scan</span>
@@ -433,20 +433,20 @@ export default function Dashboard() {
         {/* Left Column - Main Content (70%) */}
         <div className="lg:col-span-7 space-y-8">
           {/* Safe to Spend Card */}
-          <section className="bg-white p-8 md:p-12 rounded-xl shadow-sm relative overflow-hidden dark:bg-slate-900 dark:shadow-[0_25px_60px_rgba(0,0,0,0.35)] border border-stone-200/40 dark:border-slate-800">
+          <section className="bg-surface p-8 md:p-12 rounded-xl shadow-sm relative overflow-hidden dark:bg-surface dark:shadow-[0_25px_60px_rgba(0,0,0,0.35)] border border-border-sand/40 dark:border-border-sand/40">
             {/* Decorative Background */}
-            <div className="absolute -right-12 -top-12 w-64 h-64 bg-[#cbebce]/30 rounded-full blur-3xl"></div>
+            <div className="absolute -right-12 -top-12 w-64 h-64 bg-secondary/20/30 rounded-full blur-3xl"></div>
 
             <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-[#cbebce] text-[#10331C] text-sm font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-secondary/20 text-text-primary font-serif text-sm font-medium mb-6">
                 ✓ Safe to spend
               </div>
 
               <div className="mb-6">
-                <h3 className="text-6xl md:text-7xl font-bold text-[#D96C4A] tracking-tight">
+                <h3 className="text-6xl md:text-7xl font-bold text-primary tracking-tight font-serif">
                   {formatCurrency(data.savings_balance)}
                 </h3>
-                <p className="mt-3 text-base text-stone-600 dark:text-slate-300">
+                <p className="mt-3 text-base text-text-secondary dark:text-slate-300">
                   After all your bills are covered for the month.
                 </p>
               </div>
@@ -455,7 +455,7 @@ export default function Dashboard() {
               <div className="mt-8 space-y-3">
                 <div className="h-3 w-full bg-stone-200 dark:bg-slate-800 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-[#D96C4A] rounded-full animate-pulse"
+                    className="h-full bg-primary rounded-full animate-pulse"
                     style={{
                       width: `${Math.min(
                         (data.savings_balance / data.current_balance) * 100,
@@ -464,7 +464,7 @@ export default function Dashboard() {
                     }}
                   />
                 </div>
-                <div className="flex justify-between text-sm text-stone-500 dark:text-slate-400 font-medium">
+                <div className="flex justify-between text-sm text-text-secondary dark:text-slate-400 font-medium">
                   <span>
                     Spent: {formatCurrency(data.savings_balance)}
                   </span>
@@ -479,12 +479,12 @@ export default function Dashboard() {
           {/* Recent Insights */}
           <section className="space-y-6">
             <div className="flex justify-between items-center">
-              <h4 className="text-2xl font-serif font-bold text-stone-900 dark:text-slate-100">
+              <h4 className="text-2xl font-serif font-bold text-text-primary dark:text-slate-100">
                 Recent Insights
               </h4>
               <a
                 href="#"
-                className="text-[#D96C4A] font-semibold flex items-center gap-1 hover:underline text-sm sm:text-base"
+                className="text-primary font-semibold flex items-center gap-1 hover:underline text-sm sm:text-base"
               >
                 View History <ArrowRight className="h-4 w-4" />
               </a>
@@ -496,17 +496,17 @@ export default function Dashboard() {
                 data.recent_transactions.map((tx) => (
                   <div
                     key={tx.id}
-                    className="bg-white dark:bg-slate-900 border border-stone-200/40 dark:border-slate-800/80 p-5 rounded-xl flex items-center gap-4 sm:gap-6 group hover:shadow-md transition-all duration-300"
+                    className="bg-surface dark:bg-surface border border-border-sand/40 dark:border-border-sand/40/80 p-5 rounded-xl flex items-center gap-4 sm:gap-6 group hover:shadow-md transition-all duration-300"
                   >
                     <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-stone-100 dark:bg-slate-800 flex items-center justify-center shrink-0">
                       {getCategoryIcon(tx.category)}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1">
-                        <h5 className="font-semibold text-stone-900 dark:text-slate-100 text-sm sm:text-base leading-snug break-words pr-2">
+                        <h5 className="font-semibold text-text-primary dark:text-slate-100 text-sm sm:text-base leading-snug break-words pr-2">
                           {getTransactionSentence(tx)}
                         </h5>
-                        <span className="font-bold text-stone-900 dark:text-slate-100 text-sm sm:text-base shrink-0">
+                        <span className="font-bold text-text-primary dark:text-slate-100 text-sm sm:text-base shrink-0">
                           -{formatCurrency(tx.amount)}
                         </span>
                       </div>
@@ -516,12 +516,12 @@ export default function Dashboard() {
                       {(tx.processed_by_staff_id || tx.branch_code) && (
                         <div className="flex flex-wrap gap-2 mt-2">
                           {tx.processed_by_staff_id && (
-                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-[#FAF0EC] text-[#9c3e20] dark:bg-[#381c15] dark:text-[#f8a892] border border-[#f3d3c9] dark:border-[#5a281e] tracking-wide">
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-[#FAF0EC] text-primary dark:bg-[#381c15] dark:text-[#f8a892] border border-[#f3d3c9] dark:border-[#5a281e] tracking-wide">
                               Staff: {tx.processed_by_staff_id}
                             </span>
                           )}
                           {tx.branch_code && (
-                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-[#EFF6EE] text-[#4d6952] dark:bg-[#14261a] dark:text-[#a8e8b9] border border-[#d2e8d4] dark:border-[#1e482f] tracking-wide">
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-background-dim text-primary dark:bg-[#14261a] dark:text-[#a8e8b9] border border-[#d2e8d4] dark:border-[#1e482f] tracking-wide">
                               Branch: {tx.branch_code}
                             </span>
                           )}
@@ -531,7 +531,7 @@ export default function Dashboard() {
                   </div>
                 ))
               ) : (
-                <p className="text-sm text-stone-500 dark:text-slate-450 italic">No recent transactions recorded</p>
+                <p className="text-sm text-text-secondary dark:text-slate-450 italic">No recent transactions recorded</p>
               )}
             </div>
           </section>
@@ -542,23 +542,23 @@ export default function Dashboard() {
           {/* Gentle Reminders */}
           <section>
             <div className="flex items-center gap-2 mb-4">
-              <h4 className="text-lg font-serif font-bold text-stone-900 dark:text-slate-100">
+              <h4 className="text-lg font-serif font-bold text-text-primary dark:text-slate-100">
                 Gentle Reminders
               </h4>
-              <span className="h-2 w-2 rounded-full bg-[#D96C4A]"></span>
+              <span className="h-2 w-2 rounded-full bg-primary"></span>
             </div>
 
             <div className="space-y-4">
               {/* Reminder 1 */}
-              <div className="bg-white dark:bg-slate-900 border border-stone-200/40 dark:border-slate-800/80 rounded-xl p-6 border-l-4 border-[#D96C4A] shadow-sm hover:shadow-md transition-shadow">
+              <div className="bg-surface dark:bg-surface border border-border-sand/40 dark:border-border-sand/40/80 rounded-xl p-6 border-l-4 border-primary shadow-sm hover:shadow-md transition-shadow">
                 <div className="flex justify-between items-start mb-4">
-                  <Zap className="h-5 w-5 text-[#D96C4A]" />
+                  <Zap className="h-5 w-5 text-primary" />
                   <span className="text-xs text-stone-400 dark:text-slate-400">Due in 3 days</span>
                 </div>
-                <h5 className="font-semibold text-stone-900 dark:text-slate-100 mb-1">
+                <h5 className="font-semibold text-text-primary dark:text-slate-100 mb-1">
                   Electricity Bill
                 </h5>
-                <p className="text-base text-stone-700 dark:text-slate-200 mb-4 font-semibold">
+                <p className="text-base text-text-primary dark:text-slate-200 mb-4 font-semibold">
                   {formatCurrency(84.50)}
                 </p>
                 <button
@@ -570,22 +570,22 @@ export default function Dashboard() {
                     setPaymentSuccess(null);
                     setShowPaymentModal(true);
                   }}
-                  className="w-full bg-[#D96C4A]/10 text-[#D96C4A] dark:bg-[#D96C4A]/20 dark:text-[#FDE0D2] py-2 rounded-full font-semibold hover:bg-[#D96C4A]/20 transition-colors text-sm cursor-pointer"
+                  className="w-full bg-primary/10 text-primary dark:bg-primary/20 dark:text-[#FDE0D2] py-2 rounded-full font-semibold hover:bg-primary/20 transition-colors text-sm cursor-pointer"
                 >
                   Pay Now
                 </button>
               </div>
 
               {/* Reminder 2 */}
-              <div className="bg-white dark:bg-slate-900 border border-stone-200/40 dark:border-slate-800/80 rounded-xl p-6 border-l-4 border-[#D96C4A] shadow-sm hover:shadow-md transition-shadow">
+              <div className="bg-surface dark:bg-surface border border-border-sand/40 dark:border-border-sand/40/80 rounded-xl p-6 border-l-4 border-primary shadow-sm hover:shadow-md transition-shadow">
                 <div className="flex justify-between items-start mb-4">
-                  <Wifi className="h-5 w-5 text-[#D96C4A]" />
+                  <Wifi className="h-5 w-5 text-primary" />
                   <span className="text-xs text-stone-400 dark:text-slate-400">Due in 5 days</span>
                 </div>
-                <h5 className="font-semibold text-stone-900 dark:text-slate-100 mb-1">
+                <h5 className="font-semibold text-text-primary dark:text-slate-100 mb-1">
                   Home Internet
                 </h5>
-                <p className="text-base text-stone-700 dark:text-slate-200 mb-4 font-semibold">
+                <p className="text-base text-text-primary dark:text-slate-200 mb-4 font-semibold">
                   {formatCurrency(60.00)}
                 </p>
                 <button
@@ -597,7 +597,7 @@ export default function Dashboard() {
                     setPaymentSuccess(null);
                     setShowPaymentModal(true);
                   }}
-                  className="w-full bg-[#D96C4A]/10 text-[#D96C4A] dark:bg-[#D96C4A]/20 dark:text-[#FDE0D2] py-2 rounded-full font-semibold hover:bg-[#D96C4A]/20 transition-colors text-sm cursor-pointer"
+                  className="w-full bg-primary/10 text-primary dark:bg-primary/20 dark:text-[#FDE0D2] py-2 rounded-full font-semibold hover:bg-primary/20 transition-colors text-sm cursor-pointer"
                 >
                   Pay Now
                 </button>
@@ -608,34 +608,34 @@ export default function Dashboard() {
           {/* Did you know? */}
           <div className="bg-[#cfe9d7] p-6 rounded-lg relative overflow-hidden dark:bg-[#123124]">
             <div className="relative z-10">
-              <h5 className="font-serif font-bold text-[#10331C] dark:text-emerald-100 mb-2 text-lg">
+              <h5 className="font-serif font-bold text-text-primary font-serif dark:text-emerald-100 mb-2 text-lg">
                 Did you know?
               </h5>
               <p className="text-base text-[#1a3a20] dark:text-emerald-250 leading-relaxed mb-4">
                 Setting aside just ₦5 a day could help you reach your "Rainy
                 Day" goal by December.
               </p>
-              <button className="text-[#10331C] dark:text-emerald-100 font-semibold border-b border-[#10331C] dark:border-emerald-100 hover:opacity-70 text-sm cursor-pointer">
+              <button className="text-text-primary font-serif dark:text-emerald-100 font-semibold border-b border-[#10331C] dark:border-emerald-100 hover:opacity-70 text-sm cursor-pointer">
                 Start Auto-Save
               </button>
             </div>
-            <Lightbulb className="absolute -right-4 -bottom-4 h-32 w-32 opacity-10 text-[#10331C] dark:text-emerald-100" />
+            <Lightbulb className="absolute -right-4 -bottom-4 h-32 w-32 opacity-10 text-text-primary font-serif dark:text-emerald-100" />
           </div>
 
           {/* Support Card */}
-          <div className="bg-white p-8 rounded-lg text-center flex flex-col items-center gap-4 shadow-sm dark:bg-slate-900 dark:border dark:border-slate-800">
-            <div className="w-16 h-16 rounded-full bg-[#cbebce] dark:bg-emerald-950/40 flex items-center justify-center">
-              <MessageSquare className="h-8 w-8 text-[#10331C] dark:text-emerald-400" />
+          <div className="bg-surface p-8 rounded-lg text-center flex flex-col items-center gap-4 shadow-sm dark:bg-surface dark:border dark:border-border-sand/40">
+            <div className="w-16 h-16 rounded-full bg-secondary/20 dark:bg-emerald-950/40 flex items-center justify-center">
+              <MessageSquare className="h-8 w-8 text-text-primary font-serif dark:text-emerald-400" />
             </div>
             <div>
-              <h5 className="font-semibold text-stone-900 dark:text-slate-100">Need help?</h5>
-              <p className="text-sm text-stone-500 dark:text-slate-400">
+              <h5 className="font-semibold text-text-primary dark:text-slate-100">Need help?</h5>
+              <p className="text-sm text-text-secondary dark:text-slate-400">
                 Our empathetic team is here for you.
               </p>
             </div>
             <button
               onClick={() => router.push("/oracle")}
-              className="text-[#D96C4A] dark:text-[#f39575] font-semibold hover:opacity-70 text-sm cursor-pointer"
+              className="text-primary dark:text-[#f39575] font-semibold hover:opacity-70 text-sm cursor-pointer"
             >
               Chat with an advisor
             </button>
@@ -646,14 +646,14 @@ export default function Dashboard() {
       {/* Accessibilities & Preferences Aware Payment Modal */}
       {showPaymentModal && (
         <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-slate-950/60 p-4 md:p-6 backdrop-blur-sm transition-all duration-300">
-          <div className={`bg-white dark:bg-slate-900 p-6 sm:p-8 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto 
+          <div className={`bg-surface dark:bg-surface p-6 sm:p-8 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto 
             ${preferences.dyslexia_font ? "font-mono tracking-wide leading-relaxed" : ""} 
-            ${preferences.high_contrast_mode ? "border-4 border-black dark:border-white rounded-none" : "border border-stone-100 dark:border-stone-700 rounded-t-[2rem] md:rounded-[2rem]"}
+            ${preferences.high_contrast_mode ? "border-4 border-black dark:border-white rounded-none" : "border border-stone-100 dark:border-border-sand/40 rounded-t-[2rem] md:rounded-xl"}
           `}>
             
             {/* Calming reassurance banner for Anxiety Mode */}
             {preferences.anxiety_mode && (
-              <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 dark:bg-emerald-950/30 dark:border-emerald-800 text-[#10331C] dark:text-emerald-300 text-xs sm:text-sm mb-6 flex items-start gap-3">
+              <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 dark:bg-emerald-950/30 dark:border-emerald-800 text-text-primary font-serif dark:text-emerald-300 text-xs sm:text-sm mb-6 flex items-start gap-3">
                 <span className="text-lg">🌱</span>
                 <div>
                   <p className="font-semibold">Mindful Security Check</p>
@@ -662,10 +662,10 @@ export default function Dashboard() {
               </div>
             )}
 
-            <h2 className="text-xl sm:text-2xl font-bold text-stone-900 dark:text-white mb-2 font-serif">
+            <h2 className="text-xl sm:text-2xl font-bold text-text-primary dark:text-white mb-2 font-serif">
               Pay Bill: {billName}
             </h2>
-            <p className="text-xs sm:text-sm text-stone-500 dark:text-slate-400 mb-6">
+            <p className="text-xs sm:text-sm text-text-secondary dark:text-slate-400 mb-6">
               {preferences.anxiety_mode 
                 ? "Select a payment preference to securely finish."
                 : "Execute a direct database transaction to complete your bill settlement instantly."
@@ -674,7 +674,7 @@ export default function Dashboard() {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-xs sm:text-sm font-semibold text-stone-700 dark:text-slate-200 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-text-primary dark:text-slate-200 mb-2">
                   Source Account Number
                 </label>
                 <input
@@ -682,13 +682,13 @@ export default function Dashboard() {
                   value={account_no}
                   onChange={(e) => setAccount_no(e.target.value)}
                   placeholder="Enter your account number"
-                  className={`w-full px-3 sm:px-4 py-2 sm:py-3 bg-white dark:bg-slate-955 text-sm sm:text-base text-[#111827] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#D96C4A]/20
-                    ${preferences.high_contrast_mode ? "border-2 border-black dark:border-white focus:border-red-600 rounded-none font-bold" : "border border-stone-200 dark:border-stone-600 rounded-xl focus:border-[#D96C4A]"}
+                  className={`w-full px-3 sm:px-4 py-2 sm:py-3 bg-surface dark:bg-slate-955 text-sm sm:text-base text-text-primary dark:text-white focus:outline-none focus:ring-2 focus:ring-[#D96C4A]/20
+                    ${preferences.high_contrast_mode ? "border-2 border-black dark:border-white focus:border-red-600 rounded-none font-bold" : "border border-border-sand dark:border-stone-600 rounded-xl focus:border-primary"}
                   `}
                 />
               </div>
               <div>
-                <label className="block text-xs sm:text-sm font-semibold text-stone-700 dark:text-slate-200 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-text-primary dark:text-slate-200 mb-2">
                   Destination Provider Account
                 </label>
                 <input
@@ -696,13 +696,13 @@ export default function Dashboard() {
                   value={destination_account}
                   onChange={(e) => setDestination_account(e.target.value)}
                   placeholder="Enter destination account"
-                  className={`w-full px-3 sm:px-4 py-2 sm:py-3 bg-white dark:bg-slate-955 text-sm sm:text-base text-[#111827] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#D96C4A]/20
-                    ${preferences.high_contrast_mode ? "border-2 border-black dark:border-white focus:border-red-600 rounded-none font-bold" : "border border-stone-200 dark:border-stone-600 rounded-xl focus:border-[#D96C4A]"}
+                  className={`w-full px-3 sm:px-4 py-2 sm:py-3 bg-surface dark:bg-slate-955 text-sm sm:text-base text-text-primary dark:text-white focus:outline-none focus:ring-2 focus:ring-[#D96C4A]/20
+                    ${preferences.high_contrast_mode ? "border-2 border-black dark:border-white focus:border-red-600 rounded-none font-bold" : "border border-border-sand dark:border-stone-600 rounded-xl focus:border-primary"}
                   `}
                 />
               </div>
               <div>
-                <label className="block text-xs sm:text-sm font-semibold text-stone-700 dark:text-slate-200 mb-2 flex items-center justify-between">
+                <label className="block text-xs sm:text-sm font-semibold text-text-primary dark:text-slate-200 mb-2 flex items-center justify-between">
                   <span>Amount (₦)</span>
                   {preferences.simplified_numbers && (
                     <span className="text-[10px] uppercase font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full dark:bg-amber-950/20 dark:text-amber-350">
@@ -716,8 +716,8 @@ export default function Dashboard() {
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   placeholder="0.00"
-                  className={`w-full px-3 sm:px-4 py-2 sm:py-3 bg-white dark:bg-slate-955 text-sm sm:text-base text-[#111827] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#D96C4A]/20
-                    ${preferences.high_contrast_mode ? "border-2 border-black dark:border-white focus:border-red-600 rounded-none font-bold" : "border border-stone-200 dark:border-stone-600 rounded-xl focus:border-[#D96C4A]"}
+                  className={`w-full px-3 sm:px-4 py-2 sm:py-3 bg-surface dark:bg-slate-955 text-sm sm:text-base text-text-primary dark:text-white focus:outline-none focus:ring-2 focus:ring-[#D96C4A]/20
+                    ${preferences.high_contrast_mode ? "border-2 border-black dark:border-white focus:border-red-600 rounded-none font-bold" : "border border-border-sand dark:border-stone-600 rounded-xl focus:border-primary"}
                   `}
                 />
               </div>
@@ -741,7 +741,7 @@ export default function Dashboard() {
                     disabled={bankingLoading}
                     onClick={() => handleBillPayment("transfer")}
                     className={`flex-1 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-white font-semibold transition disabled:opacity-50 cursor-pointer
-                      ${preferences.high_contrast_mode ? "bg-black hover:bg-stone-850 dark:bg-white dark:text-black border border-black dark:border-white rounded-none" : "bg-[#D96C4A] hover:bg-[#c45b3f] rounded-full"}
+                      ${preferences.high_contrast_mode ? "bg-black hover:bg-stone-850 dark:bg-surface dark:text-black border border-black dark:border-white rounded-none" : "bg-primary hover:bg-primary-hover rounded-full"}
                     `}
                   >
                     {bankingLoading ? "Processing..." : "Pay via Transfer"}
@@ -751,7 +751,7 @@ export default function Dashboard() {
                     disabled={bankingLoading}
                     onClick={() => handleBillPayment("withdraw")}
                     className={`flex-1 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-white font-semibold transition disabled:opacity-50 cursor-pointer
-                      ${preferences.high_contrast_mode ? "bg-black hover:bg-stone-850 dark:bg-white dark:text-black border border-black dark:border-white rounded-none" : "bg-[#49654e] hover:bg-[#3b523f] rounded-full"}
+                      ${preferences.high_contrast_mode ? "bg-black hover:bg-stone-850 dark:bg-surface dark:text-black border border-black dark:border-white rounded-none" : "bg-[#49654e] hover:bg-[#3b523f] rounded-full"}
                     `}
                   >
                     {bankingLoading ? "Processing..." : "Pay via Withdrawal"}
@@ -762,7 +762,7 @@ export default function Dashboard() {
                   disabled={bankingLoading}
                   onClick={() => setShowPaymentModal(false)}
                   className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-semibold transition cursor-pointer
-                    ${preferences.high_contrast_mode ? "border border-black dark:border-white bg-transparent text-black dark:text-white rounded-none" : "border border-stone-200 dark:border-stone-600 text-stone-700 dark:text-slate-250 hover:bg-stone-50 dark:hover:bg-stone-800 rounded-full"}
+                    ${preferences.high_contrast_mode ? "border border-black dark:border-white bg-transparent text-black dark:text-white rounded-none" : "border border-border-sand dark:border-stone-600 text-text-primary dark:text-slate-250 hover:bg-background-dim dark:hover:bg-stone-800 rounded-full"}
                   `}
                 >
                   Cancel
@@ -776,14 +776,14 @@ export default function Dashboard() {
       {/* Holographic scanner camera mockup scan modal */}
       {showScanModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 p-4 backdrop-blur-md">
-          <div className="bg-white dark:bg-slate-900 rounded-[2rem] p-6 sm:p-8 max-w-md w-full shadow-2xl border border-stone-100 dark:border-slate-800 relative overflow-hidden">
+          <div className="bg-surface dark:bg-surface rounded-xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-stone-100 dark:border-border-sand/40 relative overflow-hidden">
             
             {/* Decorative holographic nodes */}
-            <div className="absolute -left-12 -top-12 w-32 h-32 bg-[#cbebce]/15 dark:bg-[#cbebce]/5 rounded-full blur-2xl"></div>
+            <div className="absolute -left-12 -top-12 w-32 h-32 bg-secondary/20/15 dark:bg-secondary/20/5 rounded-full blur-2xl"></div>
 
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl sm:text-2xl font-bold text-stone-900 dark:text-white font-serif flex items-center gap-2">
-                <Sparkles className="h-6 w-6 text-[#D96C4A]" />
+              <h2 className="text-xl sm:text-2xl font-bold text-text-primary dark:text-white font-serif flex items-center gap-2">
+                <Sparkles className="h-6 w-6 text-primary" />
                 Holographic Scan
               </h2>
               <button 
@@ -792,13 +792,13 @@ export default function Dashboard() {
                   setScanStatus("idle");
                   setScanResult(null);
                 }}
-                className="p-2 rounded-full hover:bg-stone-100 dark:hover:bg-slate-800 text-stone-600 dark:text-slate-300"
+                className="p-2 rounded-full hover:bg-stone-100 dark:hover:bg-slate-800 text-text-secondary dark:text-slate-300"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
 
-            <p className="text-xs sm:text-sm text-stone-500 dark:text-slate-400 mb-6">
+            <p className="text-xs sm:text-sm text-text-secondary dark:text-slate-400 mb-6">
               Fit a banking QR code or invoice barcode within the scanning bounds to execute auto-detection.
             </p>
 
@@ -810,26 +810,26 @@ export default function Dashboard() {
                 <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]"></div>
                 
                 {/* Camera corner brackets */}
-                <div className="absolute top-6 left-6 w-8 h-8 border-t-4 border-l-4 border-[#D96C4A]"></div>
-                <div className="absolute top-6 right-6 w-8 h-8 border-t-4 border-r-4 border-[#D96C4A]"></div>
-                <div className="absolute bottom-6 left-6 w-8 h-8 border-b-4 border-l-4 border-[#D96C4A]"></div>
-                <div className="absolute bottom-6 right-6 w-8 h-8 border-b-4 border-r-4 border-[#D96C4A]"></div>
+                <div className="absolute top-6 left-6 w-8 h-8 border-t-4 border-l-4 border-primary"></div>
+                <div className="absolute top-6 right-6 w-8 h-8 border-t-4 border-r-4 border-primary"></div>
+                <div className="absolute bottom-6 left-6 w-8 h-8 border-b-4 border-l-4 border-primary"></div>
+                <div className="absolute bottom-6 right-6 w-8 h-8 border-b-4 border-r-4 border-primary"></div>
 
                 {/* Pulsing scanning line */}
                 {scanStatus === "scanning" && (
-                  <div className="absolute left-0 w-full h-1 bg-[#D96C4A] shadow-[0_0_15px_#D96C4A] rounded animate-[scan_2.2s_infinite_ease-in-out]"></div>
+                  <div className="absolute left-0 w-full h-1 bg-primary shadow-[0_0_15px_#D96C4A] rounded animate-[scan_2.2s_infinite_ease-in-out]"></div>
                 )}
 
                 {scanStatus === "idle" && (
                   <div className="text-center text-stone-400 p-6">
-                    <Camera className="h-12 w-12 mx-auto mb-3 opacity-60 text-slate-500" />
+                    <Camera className="h-12 w-12 mx-auto mb-3 opacity-60 text-text-secondary" />
                     <p className="text-xs">Camera Feed Ready</p>
                   </div>
                 )}
 
                 {scanStatus === "scanning" && (
                   <div className="text-center text-white">
-                    <p className="text-sm font-semibold tracking-wider animate-pulse text-[#D96C4A]">SCANNING IN PROCESS</p>
+                    <p className="text-sm font-semibold tracking-wider animate-pulse text-primary">SCANNING IN PROCESS</p>
                     <p className="text-[10px] text-stone-400 mt-1">Analyzing holographic image...</p>
                   </div>
                 )}
@@ -847,7 +847,7 @@ export default function Dashboard() {
                 <button
                   type="button"
                   onClick={handleStartScan}
-                  className="w-full h-14 bg-[#D96C4A] hover:bg-[#c45b3f] text-white font-semibold rounded-full shadow-lg shadow-[#D96C4A]/25 transition cursor-pointer"
+                  className="w-full h-14 bg-primary hover:bg-primary-hover text-white font-semibold rounded-full shadow-lg shadow-[#D96C4A]/25 transition cursor-pointer"
                 >
                   Start Active Scan
                 </button>

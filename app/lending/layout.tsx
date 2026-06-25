@@ -6,7 +6,7 @@ export default function LendingLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-[#fcf9f2] dark:bg-stone-900">
+    <div className="min-h-screen bg-background dark:bg-background-dim">
       {children}
     </div>
   );

@@ -199,7 +199,7 @@ export default function AccountsPage() {
           ? "bg-amber-100 text-amber-900 dark:bg-amber-900 dark:text-amber-100"
           : lower === "new"
             ? "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-100"
-            : "bg-stone-100 text-stone-800 dark:bg-stone-800 dark:text-stone-200";
+            : "bg-stone-100 text-stone-800 dark:bg-surface dark:text-stone-200";
     return (
       <span
         className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${base}`}
@@ -211,10 +211,10 @@ export default function AccountsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#fcf9f2] dark:bg-[#020617] p-4">
+      <div className="min-h-screen flex items-center justify-center bg-background  p-4">
         <div className="text-center">
           <p className="text-3xl animate-bounce mb-4">📊</p>
-          <p className="text-sm sm:text-base text-stone-700 dark:text-slate-200">
+          <p className="text-sm sm:text-base text-text-primary dark:text-slate-200">
             Loading your accounts...
           </p>
         </div>
@@ -224,23 +224,23 @@ export default function AccountsPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#fcf9f2] dark:bg-[#020617] p-4">
-        <div className="max-w-xl rounded-3xl border border-red-200 bg-red-50 p-6 sm:p-8 text-red-700 shadow-sm dark:border-red-800 dark:bg-slate-900 dark:text-red-200">
-          <h2 className="mb-3 text-lg sm:text-2xl font-semibold">
+      <div className="min-h-screen flex items-center justify-center bg-background  p-4">
+        <div className="max-w-xl rounded-xl border border-red-200 bg-red-50 p-6 sm:p-8 text-red-700 shadow-sm dark:border-red-800 dark:bg-surface dark:text-red-200">
+          <h2 className="mb-3 text-lg sm:text-2xl font-semibold font-serif">
             Account error
           </h2>
           <p className="mb-4 text-xs sm:text-sm leading-6">{error}</p>
           {unauthorized ? (
             <button
               onClick={() => router.push("/")}
-              className="rounded-full bg-[#D96C4A] px-6 py-3 text-xs sm:text-sm font-semibold text-white hover:bg-[#c45b3f] transition"
+              className="rounded-full bg-primary px-6 py-3 text-xs sm:text-sm font-semibold text-white hover:bg-primary-hover transition"
             >
               Go to Login
             </button>
           ) : (
             <button
               onClick={() => window.location.reload()}
-              className="rounded-full bg-[#D96C4A] px-6 py-3 text-xs sm:text-sm font-semibold text-white hover:bg-[#c45b3f] transition"
+              className="rounded-full bg-primary px-6 py-3 text-xs sm:text-sm font-semibold text-white hover:bg-primary-hover transition"
             >
               Try again
             </button>
@@ -255,25 +255,25 @@ export default function AccountsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#fcf9f2] px-3 sm:px-6 py-6 sm:py-8 dark:bg-stone-900">
+    <main className="min-h-screen bg-background px-3 sm:px-6 py-6 sm:py-8 dark:bg-background-dim">
       <div className="mx-auto max-w-7xl space-y-6 sm:space-y-8">
         <div className="grid gap-6 sm:gap-8 xl:grid-cols-[1.15fr_0.85fr]">
-          <section className="rounded-[2rem] bg-white p-4 sm:p-8 shadow-sm dark:bg-slate-900 dark:shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
+          <section className="rounded-xl bg-surface p-4 sm:p-8 shadow-sm dark:bg-surface dark:shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
             <div className="flex flex-col gap-4 sm:gap-6 xl:flex-row xl:items-center xl:justify-between">
               <div className="min-w-0">
-                <p className="text-xs sm:text-sm uppercase tracking-[0.35em] text-[#8f7b6c] dark:text-slate-400">
+                <p className="text-xs sm:text-sm uppercase tracking-[0.35em] text-text-secondary font-sans dark:text-slate-400">
                   Alternative Credit Scan
                 </p>
-                <h1 className="mt-2 sm:mt-4 text-2xl sm:text-4xl font-semibold tracking-[-0.03em] text-[#111827] dark:text-slate-100">
+                <h1 className="mt-2 sm:mt-4 text-2xl sm:text-4xl font-semibold tracking-[-0.03em] text-text-primary dark:text-slate-100 font-serif">
                   Horizon Score
                 </h1>
-                <p className="mt-2 sm:mt-3 max-w-2xl text-xs sm:text-sm leading-6 sm:leading-7 text-stone-600 dark:text-slate-300">
+                <p className="mt-2 sm:mt-3 max-w-2xl text-xs sm:text-sm leading-6 sm:leading-7 text-text-secondary dark:text-slate-300">
                   Beyond traditional banking. We calculate your Horizon Score
                   based on your actual lifestyle commitments and community
                   trust.
                 </p>
               </div>
-              <div className="rounded-[2rem] border border-slate-200 bg-[#fbf9f4] p-4 sm:p-6 text-center shadow-sm dark:border-slate-700 dark:bg-slate-950 flex-shrink-0">
+              <div className="rounded-xl border border-border-sand bg-background-dim p-4 sm:p-6 text-center shadow-sm dark:border-slate-700 dark:bg-slate-950 flex-shrink-0">
                 <div className="relative mx-auto flex h-40 sm:h-48 w-40 sm:w-48 items-center justify-center">
                   <svg viewBox="0 0 120 120" className="absolute h-full w-full">
                     <circle
@@ -287,7 +287,7 @@ export default function AccountsPage() {
                       cx="60"
                       cy="60"
                       r="52"
-                      className="fill-transparent stroke-[#D96C4A]"
+                      className="fill-transparent stroke-primary"
                       strokeWidth="14"
                       strokeLinecap="round"
                       strokeDasharray={Math.PI * 2 * 52}
@@ -299,15 +299,15 @@ export default function AccountsPage() {
                     />
                   </svg>
                   <div className="relative z-10 flex flex-col items-center justify-center">
-                    <p className="text-3xl sm:text-5xl font-bold text-[#D96C4A]">
+                    <p className="text-3xl sm:text-5xl font-bold text-primary">
                       {data.score}
                     </p>
-                    <span className="mt-1 sm:mt-2 text-xs uppercase tracking-[0.35em] text-slate-500 dark:text-slate-400">
+                    <span className="mt-1 sm:mt-2 text-xs uppercase tracking-[0.35em] text-text-secondary dark:text-slate-400">
                       Score
                     </span>
                   </div>
                 </div>
-                <p className="mt-4 sm:mt-6 text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+                <p className="mt-4 sm:mt-6 text-xs sm:text-sm text-text-secondary dark:text-slate-400">
                   +24 this month
                 </p>
               </div>
@@ -317,34 +317,34 @@ export default function AccountsPage() {
           <section className="space-y-4 sm:space-y-6">
             <Link
               href="/accounts/community/lending"
-              className="block rounded-[2rem] bg-white p-4 sm:p-6 shadow-sm transition hover:border-[#D96C4A]/20 dark:bg-stone-900 dark:shadow-[0_20px_50px_rgba(0,0,0,0.35)]"
+              className="block rounded-xl bg-surface p-4 sm:p-6 shadow-sm transition hover:border-primary/20 dark:bg-background-dim dark:shadow-[0_20px_50px_rgba(0,0,0,0.35)]"
             >
               <div className="flex items-center justify-between gap-3">
                 <div className="min-w-0">
-                  <p className="text-xs sm:text-sm uppercase tracking-[0.35em] text-[#8f7b6c] dark:text-slate-400">
+                  <p className="text-xs sm:text-sm uppercase tracking-[0.35em] text-text-secondary font-sans dark:text-slate-400">
                     Trust Network
                   </p>
-                  <p className="mt-1 sm:mt-2 text-2xl sm:text-3xl font-semibold text-[#111827] dark:text-white">
+                  <p className="mt-1 sm:mt-2 text-2xl sm:text-3xl font-semibold text-text-primary dark:text-white">
                     {data.endorsements}
                   </p>
                 </div>
-                <div className="flex h-12 sm:h-14 w-12 sm:w-14 items-center justify-center rounded-3xl bg-[#D96C4A]/10 text-[#D96C4A] flex-shrink-0">
+                <div className="flex h-12 sm:h-14 w-12 sm:w-14 items-center justify-center rounded-xl bg-primary/10 text-primary flex-shrink-0">
                   <Users className="h-5 sm:h-6 w-5 sm:w-6" />
                 </div>
               </div>
-              <p className="mt-3 sm:mt-4 text-xs sm:text-sm leading-6 text-stone-600 dark:text-slate-300">
+              <p className="mt-3 sm:mt-4 text-xs sm:text-sm leading-6 text-text-secondary dark:text-slate-300">
                 Community endorsements that help improve your Horizon Score and
                 loan eligibility.
               </p>
             </Link>
 
-            <div className="rounded-[2rem] bg-[#D96C4A] p-4 sm:p-6 text-white shadow-sm dark:bg-[#b55b38]">
+            <div className="rounded-xl bg-primary p-4 sm:p-6 text-white shadow-sm dark:bg-[#b55b38]">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="mt-0.5 sm:mt-1 rounded-3xl bg-white/15 p-2 sm:p-3 text-white flex-shrink-0">
+                <div className="mt-0.5 sm:mt-1 rounded-xl bg-surface/15 p-2 sm:p-3 text-white flex-shrink-0">
                   <CreditCard className="h-5 sm:h-6 w-5 sm:w-6" />
                 </div>
                 <div className="min-w-0">
-                  <h2 className="text-base sm:text-xl font-semibold">
+                  <h2 className="text-base sm:text-xl font-semibold font-serif">
                     Unlock Micro-Loan eligibility
                   </h2>
                   <p className="mt-2 sm:mt-3 text-xs sm:text-sm leading-6 text-white/85">
@@ -355,7 +355,7 @@ export default function AccountsPage() {
               </div>
               <button
                 onClick={() => setIsRoadmapOpen(true)}
-                className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-[#D96C4A] transition hover:bg-white/90"
+                className="mt-6 inline-flex items-center gap-2 rounded-full bg-surface px-5 py-3 text-sm font-semibold text-primary transition hover:bg-surface/90"
               >
                 View Roadmap <ArrowRight className="h-4 w-4" />
               </button>
@@ -364,17 +364,17 @@ export default function AccountsPage() {
         </div>
 
         <div className="grid gap-6 xl:grid-cols-[1.5fr_1fr]">
-          <div className="rounded-[2rem] bg-white p-8 shadow-sm dark:bg-slate-900 dark:shadow-[0_20px_50px_rgba(0,0,0,0.35)]">
+          <div className="rounded-xl bg-surface p-8 shadow-sm dark:bg-surface dark:shadow-[0_20px_50px_rgba(0,0,0,0.35)]">
             <div className="mb-8 flex items-center justify-between gap-4">
               <div>
-                <p className="text-sm uppercase tracking-[0.35em] text-[#8f7b6c] dark:text-slate-400">
+                <p className="text-sm uppercase tracking-[0.35em] text-text-secondary font-sans dark:text-slate-400">
                   Connected data sources
                 </p>
-                <h2 className="mt-3 text-2xl font-semibold text-[#111827] dark:text-slate-100">
+                <h2 className="mt-3 text-2xl font-semibold text-text-primary dark:text-slate-100 font-serif">
                   Verification toggles
                 </h2>
               </div>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
+              <p className="text-sm text-text-secondary dark:text-slate-400">
                 {updating ? "Updating..." : "Tap any toggle to update status."}
               </p>
             </div>
@@ -383,23 +383,23 @@ export default function AccountsPage() {
               <button
                 type="button"
                 onClick={() => handleToggle("rent")}
-                className="group rounded-[1.75rem] border border-slate-200 bg-[#f8faf5] p-5 text-left transition hover:border-[#D96C4A] dark:border-slate-700 dark:bg-slate-950"
+                className="group rounded-xl border border-border-sand bg-background-dim p-5 text-left transition hover:border-primary dark:border-slate-700 dark:bg-slate-950"
               >
                 <div className="flex items-center gap-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-3xl bg-[#D96C4A]/10 text-[#D96C4A]">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
                     <ShieldCheck className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-[#111827] dark:text-slate-100">
+                    <p className="text-sm font-semibold text-text-primary dark:text-slate-100">
                       Rent Payments
                     </p>
-                    <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
+                    <p className="mt-2 text-xs text-text-secondary dark:text-slate-400">
                       Verified by PropertyLink
                     </p>
                   </div>
                 </div>
                 <div className="mt-6 flex items-center justify-between">
-                  <span className="text-xs uppercase tracking-[0.35em] text-slate-500 dark:text-slate-400">
+                  <span className="text-xs uppercase tracking-[0.35em] text-text-secondary dark:text-slate-400">
                     Status
                   </span>
                   <span
@@ -417,23 +417,23 @@ export default function AccountsPage() {
               <button
                 type="button"
                 onClick={() => handleToggle("phone")}
-                className="group rounded-[1.75rem] border border-slate-200 bg-[#f8faf5] p-5 text-left transition hover:border-[#D96C4A] dark:border-slate-700 dark:bg-slate-950"
+                className="group rounded-xl border border-border-sand bg-background-dim p-5 text-left transition hover:border-primary dark:border-slate-700 dark:bg-slate-950"
               >
                 <div className="flex items-center gap-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-3xl bg-[#D96C4A]/10 text-[#D96C4A]">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
                     <Phone className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-[#111827] dark:text-slate-100">
+                    <p className="text-sm font-semibold text-text-primary dark:text-slate-100">
                       Phone Bill
                     </p>
-                    <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
+                    <p className="mt-2 text-xs text-text-secondary dark:text-slate-400">
                       Consistent 24-month history
                     </p>
                   </div>
                 </div>
                 <div className="mt-6 flex items-center justify-between">
-                  <span className="text-xs uppercase tracking-[0.35em] text-slate-500 dark:text-slate-400">
+                  <span className="text-xs uppercase tracking-[0.35em] text-text-secondary dark:text-slate-400">
                     Status
                   </span>
                   <span
@@ -451,23 +451,23 @@ export default function AccountsPage() {
               <button
                 type="button"
                 onClick={() => handleToggle("streaming")}
-                className="group rounded-[1.75rem] border border-slate-200 bg-[#f8faf5] p-5 text-left transition hover:border-[#D96C4A] dark:border-slate-700 dark:bg-slate-950"
+                className="group rounded-xl border border-border-sand bg-background-dim p-5 text-left transition hover:border-primary dark:border-slate-700 dark:bg-slate-950"
               >
                 <div className="flex items-center gap-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-3xl bg-[#D96C4A]/10 text-[#D96C4A]">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
                     <Monitor className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-[#111827] dark:text-slate-100">
+                    <p className="text-sm font-semibold text-text-primary dark:text-slate-100">
                       Streaming
                     </p>
-                    <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
+                    <p className="mt-2 text-xs text-text-secondary dark:text-slate-400">
                       Netflix, Spotify, & more
                     </p>
                   </div>
                 </div>
                 <div className="mt-6 flex items-center justify-between">
-                  <span className="text-xs uppercase tracking-[0.35em] text-slate-500 dark:text-slate-400">
+                  <span className="text-xs uppercase tracking-[0.35em] text-text-secondary dark:text-slate-400">
                     Status
                   </span>
                   <span
@@ -484,24 +484,24 @@ export default function AccountsPage() {
             </div>
           </div>
 
-          <div className="rounded-[2rem] bg-white p-8 shadow-sm dark:bg-stone-900 dark:shadow-[0_20px_50px_rgba(0,0,0,0.35)]">
+          <div className="rounded-xl bg-surface p-8 shadow-sm dark:bg-background-dim dark:shadow-[0_20px_50px_rgba(0,0,0,0.35)]">
             <div className="mb-6 flex items-center justify-between gap-3">
               <div>
-                <p className="text-sm uppercase tracking-[0.35em] text-[#8f7b6c] dark:text-slate-400">
+                <p className="text-sm uppercase tracking-[0.35em] text-text-secondary font-sans dark:text-slate-400">
                   Recent Activity
                 </p>
-                <h2 className="mt-3 text-2xl font-semibold text-[#111827] dark:text-white">
+                <h2 className="mt-3 text-2xl font-semibold text-text-primary dark:text-white font-serif">
                   Activity timeline
                 </h2>
               </div>
-              <div className="rounded-full bg-stone-100 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-stone-600 dark:bg-stone-800 dark:text-stone-300">
+              <div className="rounded-full bg-stone-100 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-text-secondary dark:bg-surface dark:text-stone-300">
                 Encrypted & Private
               </div>
             </div>
 
-            <div className="overflow-hidden rounded-[1.75rem] border border-slate-200 dark:border-slate-800">
+            <div className="overflow-hidden rounded-xl border border-border-sand dark:border-border-sand/40">
               <table className="w-full border-collapse text-left text-sm">
-                <thead className="bg-slate-50 text-slate-500 dark:bg-slate-950 dark:text-slate-400">
+                <thead className="bg-background-dim text-text-secondary dark:bg-slate-950 dark:text-slate-400">
                   <tr>
                     <th className="px-6 py-4">Source</th>
                     <th className="px-6 py-4">Date</th>
@@ -515,14 +515,14 @@ export default function AccountsPage() {
                       key={`${activity.source}-${index}`}
                       className={
                         index % 2 === 0
-                          ? "bg-white dark:bg-[#111827]"
-                          : "bg-slate-50 dark:bg-[#0b1220]"
+                          ? "bg-surface dark:bg-[#111827]"
+                          : "bg-background-dim dark:bg-[#0b1220]"
                       }
                     >
                       <td className="px-6 py-5 text-slate-800 dark:text-white">
                         {activity.source}
                       </td>
-                      <td className="px-6 py-5 text-slate-500 dark:text-slate-300">
+                      <td className="px-6 py-5 text-text-secondary dark:text-slate-300">
                         {activity.date}
                       </td>
                       <td className="px-6 py-5">
@@ -542,53 +542,53 @@ export default function AccountsPage() {
 
       {isRoadmapOpen ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 p-6">
-          <div className="w-full max-w-2xl rounded-[2rem] bg-white p-8 shadow-2xl dark:bg-stone-900 dark:text-white">
+          <div className="w-full max-w-2xl rounded-xl bg-surface p-8 shadow-2xl dark:bg-background-dim dark:text-white">
             <div className="mb-6 flex items-start justify-between gap-4">
               <div>
-                <p className="text-sm uppercase tracking-[0.35em] text-[#8f7b6c] dark:text-slate-400">
+                <p className="text-sm uppercase tracking-[0.35em] text-text-secondary font-sans dark:text-slate-400">
                   Path to 850
                 </p>
-                <h2 className="mt-2 text-3xl font-semibold text-[#111827] dark:text-white">
+                <h2 className="mt-2 text-3xl font-semibold text-text-primary dark:text-white font-serif">
                   Rewards milestone roadmap
                 </h2>
               </div>
               <button
                 onClick={() => setIsRoadmapOpen(false)}
-                className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-stone-700 dark:text-white dark:hover:bg-stone-800"
+                className="rounded-full border border-border-sand px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-background-dim dark:border-border-sand/40 dark:text-white dark:hover:bg-stone-800"
               >
                 Close
               </button>
             </div>
             <div className="space-y-5">
-              <div className="flex items-center gap-3 rounded-[1.75rem] border border-slate-200 bg-slate-50 p-5 dark:border-stone-700 dark:bg-stone-950">
+              <div className="flex items-center gap-3 rounded-xl border border-border-sand bg-background-dim p-5 dark:border-border-sand/40 dark:bg-stone-950">
                 <CheckCircle2 className="h-6 w-6 text-emerald-500" />
                 <div>
-                  <p className="font-semibold text-[#111827] dark:text-white">
+                  <p className="font-semibold text-text-primary dark:text-white">
                     Verify Rent
                   </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-300">
+                  <p className="text-sm text-text-secondary dark:text-slate-300">
                     +50 points when your rent payment is confirmed.
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-3 rounded-[1.75rem] border border-slate-200 bg-slate-50 p-5 dark:border-stone-700 dark:bg-stone-950">
+              <div className="flex items-center gap-3 rounded-xl border border-border-sand bg-background-dim p-5 dark:border-border-sand/40 dark:bg-stone-950">
                 <CheckCircle2 className="h-6 w-6 text-amber-500" />
                 <div>
-                  <p className="font-semibold text-[#111827] dark:text-white">
+                  <p className="font-semibold text-text-primary dark:text-white">
                     3 Months Consistent Savings
                   </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-300">
+                  <p className="text-sm text-text-secondary dark:text-slate-300">
                     +40 points for keeping a steady savings streak.
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-3 rounded-[1.75rem] border border-slate-200 bg-slate-50 p-5 dark:border-stone-700 dark:bg-stone-950">
+              <div className="flex items-center gap-3 rounded-xl border border-border-sand bg-background-dim p-5 dark:border-border-sand/40 dark:bg-stone-950">
                 <CheckCircle2 className="h-6 w-6 text-sky-500" />
                 <div>
-                  <p className="font-semibold text-[#111827] dark:text-white">
+                  <p className="font-semibold text-text-primary dark:text-white">
                     Community Endorsements
                   </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-300">
+                  <p className="text-sm text-text-secondary dark:text-slate-300">
                     +20 points when trusted members vouch for you.
                   </p>
                 </div>

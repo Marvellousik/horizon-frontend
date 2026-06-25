@@ -455,10 +455,10 @@ export default function SavingsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#fcf9f2] dark:bg-stone-900 p-4">
+      <div className="min-h-screen flex items-center justify-center bg-background dark:bg-background-dim p-4">
         <div className="text-center">
           <span className="text-4xl animate-bounce mb-4 inline-block">🌱</span>
-          <p className="text-sm sm:text-base text-stone-700 dark:text-slate-200">
+          <p className="text-sm sm:text-base text-text-primary dark:text-slate-200">
             Loading your garden...
           </p>
         </div>
@@ -474,17 +474,17 @@ export default function SavingsPage() {
     }, 0) / Math.max(1, goals.length);
 
   return (
-    <div className="min-h-screen bg-[#fcf9f2] dark:bg-stone-900">
+    <div className="min-h-screen bg-background dark:bg-background-dim">
       <div className="px-3 sm:px-6 py-6 sm:py-8">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <header className="mb-6 sm:mb-8">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
               <div className="flex-1">
-                <h1 className="text-2xl sm:text-4xl font-bold text-[#111827] dark:text-white mb-2">
+                <h1 className="text-2xl sm:text-4xl font-bold text-text-primary dark:text-white mb-2 font-serif">
                   Micro-Savings Garden
                 </h1>
-                <p className="text-sm sm:text-base text-stone-600 dark:text-slate-300 max-w-2xl">
+                <p className="text-sm sm:text-base text-text-secondary dark:text-slate-300 max-w-2xl">
                   Watch your small contributions grow into something beautiful.
                   Each plot represents a financial milestone being nurtured by
                   your patience.
@@ -495,7 +495,7 @@ export default function SavingsPage() {
                       resetBankingState();
                       setShowDepositModal(true);
                     }}
-                    className="px-4 py-2 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-full text-sm font-semibold text-stone-700 dark:text-slate-200 hover:bg-stone-50 dark:hover:bg-stone-700 transition shadow-sm"
+                    className="px-4 py-2 bg-surface dark:bg-surface border border-border-sand dark:border-border-sand/40 rounded-full text-sm font-semibold text-text-primary dark:text-slate-200 hover:bg-background-dim dark:hover:bg-stone-700 transition shadow-sm"
                   >
                     Deposit
                   </button>
@@ -504,7 +504,7 @@ export default function SavingsPage() {
                       resetBankingState();
                       setShowWithdrawModal(true);
                     }}
-                    className="px-4 py-2 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-full text-sm font-semibold text-stone-700 dark:text-slate-200 hover:bg-stone-50 dark:hover:bg-stone-700 transition shadow-sm"
+                    className="px-4 py-2 bg-surface dark:bg-surface border border-border-sand dark:border-border-sand/40 rounded-full text-sm font-semibold text-text-primary dark:text-slate-200 hover:bg-background-dim dark:hover:bg-stone-700 transition shadow-sm"
                   >
                     Withdraw
                   </button>
@@ -513,17 +513,17 @@ export default function SavingsPage() {
                       resetBankingState();
                       setShowTransferModal(true);
                     }}
-                    className="px-4 py-2 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-full text-sm font-semibold text-stone-700 dark:text-slate-200 hover:bg-stone-50 dark:hover:bg-stone-700 transition shadow-sm"
+                    className="px-4 py-2 bg-surface dark:bg-surface border border-border-sand dark:border-border-sand/40 rounded-full text-sm font-semibold text-text-primary dark:text-slate-200 hover:bg-background-dim dark:hover:bg-stone-700 transition shadow-sm"
                   >
                     Transfer
                   </button>
                 </div>
               </div>
-              <div className="hidden lg:flex items-center gap-2 bg-white dark:bg-stone-800 rounded-full px-6 py-3 border border-stone-200 dark:border-stone-700 shadow-sm flex-shrink-0">
+              <div className="hidden lg:flex items-center gap-2 bg-surface dark:bg-surface rounded-full px-6 py-3 border border-border-sand dark:border-border-sand/40 shadow-sm flex-shrink-0">
                 <span className="text-xl">🌱</span>
-                <span className="text-sm text-stone-600 dark:text-slate-300">
+                <span className="text-sm text-text-secondary dark:text-slate-300">
                   Daily Growth:{" "}
-                  <span className="font-bold text-[#D96C4A]">
+                  <span className="font-bold text-primary">
                     +${dailyGrowth.toFixed(2)}
                   </span>
                 </span>
@@ -546,29 +546,29 @@ export default function SavingsPage() {
               return (
                 <div
                   key={goal.id}
-                  className="bg-white dark:bg-stone-800 rounded-2xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-shadow"
+                  className="bg-surface dark:bg-surface rounded-2xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-shadow"
                 >
-                  <div className="aspect-square bg-[#F4F1EA] dark:bg-stone-900 rounded-lg flex items-center justify-center mb-3 sm:mb-4">
+                  <div className="aspect-square bg-[#F4F1EA] dark:bg-background-dim rounded-lg flex items-center justify-center mb-3 sm:mb-4">
                     {renderPlantSVG(percentage)}
                   </div>
-                  <h3 className="font-semibold text-sm sm:text-base text-[#111827] dark:text-white mb-2 sm:mb-3">
+                  <h3 className="font-semibold text-sm sm:text-base text-text-primary dark:text-white mb-2 sm:mb-3 font-serif">
                     {goal.name}
                   </h3>
                   <div className="flex justify-between items-center mb-2 text-xs sm:text-sm">
-                    <span className="text-stone-600 dark:text-slate-300">
+                    <span className="text-text-secondary dark:text-slate-300">
                       Progress
                     </span>
-                    <span className="font-bold text-[#D96C4A]">
+                    <span className="font-bold text-primary">
                       {Math.round(percentage)}%
                     </span>
                   </div>
                   <div className="w-full h-3 bg-stone-200 dark:bg-stone-700 rounded-full overflow-hidden mb-2 sm:mb-3">
                     <div
-                      className="h-full bg-[#D96C4A] rounded-full transition-all"
+                      className="h-full bg-primary rounded-full transition-all"
                       style={{ width: `${Math.min(percentage, 100)}%` }}
                     />
                   </div>
-                  <p className="text-xs text-stone-500 dark:text-slate-400 text-center">
+                  <p className="text-xs text-text-secondary dark:text-slate-400 text-center">
                     ₦{goal.current_amount.toFixed(2)} / ₦
                     {goal.target_amount.toFixed(2)}
                   </p>
@@ -579,10 +579,10 @@ export default function SavingsPage() {
             {/* Plant New Goal Card */}
             <button
               onClick={() => setShowPlantModal(true)}
-              className="bg-white dark:bg-stone-800 rounded-2xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-shadow border-2 border-dashed border-stone-300 dark:border-stone-600 flex flex-col items-center justify-center group min-h-[280px]"
+              className="bg-surface dark:bg-surface rounded-2xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-shadow border-2 border-dashed border-stone-300 dark:border-stone-600 flex flex-col items-center justify-center group min-h-[280px]"
             >
-              <Plus className="w-8 h-8 sm:w-12 sm:h-12 text-stone-400 group-hover:text-[#D96C4A] transition-colors mb-2" />
-              <span className="text-xs sm:text-base text-stone-600 dark:text-slate-300 group-hover:text-[#D96C4A] font-semibold transition-colors text-center">
+              <Plus className="w-8 h-8 sm:w-12 sm:h-12 text-stone-400 group-hover:text-primary transition-colors mb-2" />
+              <span className="text-xs sm:text-base text-text-secondary dark:text-slate-300 group-hover:text-primary font-semibold transition-colors text-center">
                 Plant New Goal
               </span>
             </button>
@@ -590,26 +590,26 @@ export default function SavingsPage() {
 
           {/* Info Section */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-            <div className="md:col-span-2 bg-white dark:bg-stone-800 rounded-2xl p-4 sm:p-8 flex flex-col sm:flex-row gap-4 items-start sm:items-center shadow-sm">
+            <div className="md:col-span-2 bg-surface dark:bg-surface rounded-2xl p-4 sm:p-8 flex flex-col sm:flex-row gap-4 items-start sm:items-center shadow-sm">
               <div className="text-3xl flex-shrink-0">💡</div>
               <div>
-                <h3 className="font-semibold text-sm sm:text-base text-[#111827] dark:text-white mb-1">
+                <h3 className="font-semibold text-sm sm:text-base text-text-primary dark:text-white mb-1 font-serif">
                   Did you know?
                 </h3>
-                <p className="text-xs sm:text-sm text-stone-600 dark:text-slate-300">
+                <p className="text-xs sm:text-sm text-text-secondary dark:text-slate-300">
                   Setting aside just $2 extra each day would complete your goals
                   14 days earlier. Your garden thrives on consistency!
                 </p>
               </div>
             </div>
-            <div className="bg-[#F4F1EA] dark:bg-stone-800 rounded-2xl p-4 sm:p-8 flex flex-col justify-center items-center text-center shadow-sm">
-              <p className="text-xs uppercase tracking-widest text-stone-600 dark:text-slate-400 mb-2">
+            <div className="bg-[#F4F1EA] dark:bg-surface rounded-2xl p-4 sm:p-8 flex flex-col justify-center items-center text-center shadow-sm">
+              <p className="text-xs uppercase tracking-widest text-text-secondary dark:text-slate-400 mb-2">
                 Total Goals
               </p>
-              <p className="text-2xl sm:text-3xl font-bold text-[#D96C4A]">
+              <p className="text-2xl sm:text-3xl font-bold text-primary">
                 {goals.length}
               </p>
-              <p className="text-xs sm:text-sm text-stone-500 dark:text-slate-400 mt-2">
+              <p className="text-xs sm:text-sm text-text-secondary dark:text-slate-400 mt-2">
                 Growing together
               </p>
             </div>
@@ -620,13 +620,13 @@ export default function SavingsPage() {
       {/* Plant New Goal Modal */}
       {showPlantModal && (
         <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-slate-950/50 p-4 md:p-6">
-          <div className="bg-white dark:bg-stone-800 rounded-t-[2rem] md:rounded-[2rem] p-6 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
-            <h2 className="text-xl sm:text-2xl font-bold text-[#111827] dark:text-white mb-4 sm:mb-6">
+          <div className="bg-surface dark:bg-surface rounded-t-[2rem] md:rounded-xl p-6 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
+            <h2 className="text-xl sm:text-2xl font-bold text-text-primary dark:text-white mb-4 sm:mb-6 font-serif">
               Plant a New Goal
             </h2>
             <form onSubmit={handlePlantGoal} className="space-y-4">
               <div>
-                <label className="block text-xs sm:text-sm font-semibold text-stone-700 dark:text-slate-200 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-text-primary dark:text-slate-200 mb-2">
                   Goal Name
                 </label>
                 <input
@@ -634,11 +634,11 @@ export default function SavingsPage() {
                   value={goalName}
                   onChange={(e) => setGoalName(e.target.value)}
                   placeholder="e.g., Emergency Fund"
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-900 text-sm sm:text-base text-stone-900 dark:text-white focus:outline-none focus:border-[#D96C4A] focus:ring-2 focus:ring-[#D96C4A]/20"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-border-sand dark:border-stone-600 bg-surface dark:bg-background-dim text-sm sm:text-base text-text-primary dark:text-white focus:outline-none focus:border-primary focus:ring-2 focus:ring-[#D96C4A]/20"
                 />
               </div>
               <div>
-                <label className="block text-xs sm:text-sm font-semibold text-stone-700 dark:text-slate-200 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-text-primary dark:text-slate-200 mb-2">
                   Target Amount (₦)
                 </label>
                 <input
@@ -647,7 +647,7 @@ export default function SavingsPage() {
                   value={targetAmount}
                   onChange={(e) => setTargetAmount(e.target.value)}
                   placeholder="1000.00"
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-900 text-sm sm:text-base text-stone-900 dark:text-white focus:outline-none focus:border-[#D96C4A] focus:ring-2 focus:ring-[#D96C4A]/20"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-border-sand dark:border-stone-600 bg-surface dark:bg-background-dim text-sm sm:text-base text-text-primary dark:text-white focus:outline-none focus:border-primary focus:ring-2 focus:ring-[#D96C4A]/20"
                 />
               </div>
               {plantingError && (
@@ -659,14 +659,14 @@ export default function SavingsPage() {
                 <button
                   type="button"
                   onClick={() => setShowPlantModal(false)}
-                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-full border border-stone-200 dark:border-stone-600 text-xs sm:text-sm text-stone-700 dark:text-slate-200 font-semibold hover:bg-stone-50 dark:hover:bg-stone-700 transition"
+                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-full border border-border-sand dark:border-stone-600 text-xs sm:text-sm text-text-primary dark:text-slate-200 font-semibold hover:bg-background-dim dark:hover:bg-stone-700 transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={plantingLoading}
-                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-full bg-[#D96C4A] text-xs sm:text-sm text-white font-semibold hover:bg-[#c45b3f] transition disabled:opacity-50"
+                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-full bg-primary text-xs sm:text-sm text-white font-semibold hover:bg-primary-hover transition disabled:opacity-50"
                 >
                   {plantingLoading ? "Planting..." : "Plant Goal"}
                 </button>
@@ -679,19 +679,19 @@ export default function SavingsPage() {
       {/* Water Your Plants Modal (FAB) */}
       {showWaterModal && (
         <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-slate-950/50 p-4 md:p-6">
-          <div className="bg-white dark:bg-stone-800 rounded-t-[2rem] md:rounded-[2rem] p-6 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
-            <h2 className="text-xl sm:text-2xl font-bold text-[#111827] dark:text-white mb-4 sm:mb-6">
+          <div className="bg-surface dark:bg-surface rounded-t-[2rem] md:rounded-xl p-6 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
+            <h2 className="text-xl sm:text-2xl font-bold text-text-primary dark:text-white mb-4 sm:mb-6 font-serif">
               Water Your Plants
             </h2>
             <form onSubmit={handleWaterGoal} className="space-y-4">
               <div>
-                <label className="block text-xs sm:text-sm font-semibold text-stone-700 dark:text-slate-200 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-text-primary dark:text-slate-200 mb-2">
                   Select Goal
                 </label>
                 <select
                   value={selectedGoalId}
                   onChange={(e) => setSelectedGoalId(e.target.value)}
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-900 text-sm sm:text-base text-stone-900 dark:text-white focus:outline-none focus:border-[#D96C4A] focus:ring-2 focus:ring-[#D96C4A]/20"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-border-sand dark:border-stone-600 bg-surface dark:bg-background-dim text-sm sm:text-base text-text-primary dark:text-white focus:outline-none focus:border-primary focus:ring-2 focus:ring-[#D96C4A]/20"
                 >
                   <option value="">Choose a goal...</option>
                   {goals.map((goal) => (
@@ -702,7 +702,7 @@ export default function SavingsPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-xs sm:text-sm font-semibold text-stone-700 dark:text-slate-200 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-text-primary dark:text-slate-200 mb-2">
                   Amount (₦)
                 </label>
                 <input
@@ -711,7 +711,7 @@ export default function SavingsPage() {
                   value={waterAmount}
                   onChange={(e) => setWaterAmount(e.target.value)}
                   placeholder="50.00"
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-900 text-sm sm:text-base text-stone-900 dark:text-white focus:outline-none focus:border-[#D96C4A] focus:ring-2 focus:ring-[#D96C4A]/20"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-border-sand dark:border-stone-600 bg-surface dark:bg-background-dim text-sm sm:text-base text-text-primary dark:text-white focus:outline-none focus:border-primary focus:ring-2 focus:ring-[#D96C4A]/20"
                 />
               </div>
               {wateringError && (
@@ -723,14 +723,14 @@ export default function SavingsPage() {
                 <button
                   type="button"
                   onClick={() => setShowWaterModal(false)}
-                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-full border border-stone-200 dark:border-stone-600 text-xs sm:text-sm text-stone-700 dark:text-slate-200 font-semibold hover:bg-stone-50 dark:hover:bg-stone-700 transition"
+                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-full border border-border-sand dark:border-stone-600 text-xs sm:text-sm text-text-primary dark:text-slate-200 font-semibold hover:bg-background-dim dark:hover:bg-stone-700 transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={wateringLoading}
-                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-full bg-[#D96C4A] text-xs sm:text-sm text-white font-semibold hover:bg-[#c45b3f] transition disabled:opacity-50"
+                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-full bg-primary text-xs sm:text-sm text-white font-semibold hover:bg-primary-hover transition disabled:opacity-50"
                 >
                   {wateringLoading ? "Watering..." : "Water Plant"}
                 </button>
@@ -743,13 +743,13 @@ export default function SavingsPage() {
       {/* Deposit Modal */}
       {showDepositModal && (
         <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-slate-950/50 p-4 md:p-6">
-          <div className="bg-white dark:bg-stone-800 rounded-t-[2rem] md:rounded-[2rem] p-6 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
-            <h2 className="text-xl sm:text-2xl font-bold text-[#111827] dark:text-white mb-4 sm:mb-6">
+          <div className="bg-surface dark:bg-surface rounded-t-[2rem] md:rounded-xl p-6 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
+            <h2 className="text-xl sm:text-2xl font-bold text-text-primary dark:text-white mb-4 sm:mb-6 font-serif">
               Deposit Funds
             </h2>
             <form onSubmit={handleDeposit} className="space-y-4">
               <div>
-                <label className="block text-xs sm:text-sm font-semibold text-stone-700 dark:text-slate-200 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-text-primary dark:text-slate-200 mb-2">
                   Account Number
                 </label>
                 <input
@@ -757,11 +757,11 @@ export default function SavingsPage() {
                   value={account_no}
                   onChange={(e) => setAccount_no(e.target.value)}
                   placeholder="Enter Account Number"
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-900 text-sm sm:text-base text-stone-900 dark:text-white focus:outline-none focus:border-[#D96C4A] focus:ring-2 focus:ring-[#D96C4A]/20"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-border-sand dark:border-stone-600 bg-surface dark:bg-background-dim text-sm sm:text-base text-text-primary dark:text-white focus:outline-none focus:border-primary focus:ring-2 focus:ring-[#D96C4A]/20"
                 />
               </div>
               <div>
-                <label className="block text-xs sm:text-sm font-semibold text-stone-700 dark:text-slate-200 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-text-primary dark:text-slate-200 mb-2">
                   Amount (₦)
                 </label>
                 <input
@@ -770,7 +770,7 @@ export default function SavingsPage() {
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   placeholder="0.00"
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-900 text-sm sm:text-base text-stone-900 dark:text-white focus:outline-none focus:border-[#D96C4A] focus:ring-2 focus:ring-[#D96C4A]/20"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-border-sand dark:border-stone-600 bg-surface dark:bg-background-dim text-sm sm:text-base text-text-primary dark:text-white focus:outline-none focus:border-primary focus:ring-2 focus:ring-[#D96C4A]/20"
                 />
               </div>
               {bankingError && (
@@ -782,14 +782,14 @@ export default function SavingsPage() {
                 <button
                   type="button"
                   onClick={() => setShowDepositModal(false)}
-                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-full border border-stone-200 dark:border-stone-600 text-xs sm:text-sm text-stone-700 dark:text-slate-200 font-semibold hover:bg-stone-50 dark:hover:bg-stone-700 transition"
+                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-full border border-border-sand dark:border-stone-600 text-xs sm:text-sm text-text-primary dark:text-slate-200 font-semibold hover:bg-background-dim dark:hover:bg-stone-700 transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={bankingLoading}
-                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-full bg-[#D96C4A] text-xs sm:text-sm text-white font-semibold hover:bg-[#c45b3f] transition disabled:opacity-50"
+                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-full bg-primary text-xs sm:text-sm text-white font-semibold hover:bg-primary-hover transition disabled:opacity-50"
                 >
                   {bankingLoading ? "Processing..." : "Deposit"}
                 </button>
@@ -802,13 +802,13 @@ export default function SavingsPage() {
       {/* Withdraw Modal */}
       {showWithdrawModal && (
         <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-slate-950/50 p-4 md:p-6">
-          <div className="bg-white dark:bg-stone-800 rounded-t-[2rem] md:rounded-[2rem] p-6 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
-            <h2 className="text-xl sm:text-2xl font-bold text-[#111827] dark:text-white mb-4 sm:mb-6">
+          <div className="bg-surface dark:bg-surface rounded-t-[2rem] md:rounded-xl p-6 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
+            <h2 className="text-xl sm:text-2xl font-bold text-text-primary dark:text-white mb-4 sm:mb-6 font-serif">
               Withdraw Funds
             </h2>
             <form onSubmit={handleWithdraw} className="space-y-4">
               <div>
-                <label className="block text-xs sm:text-sm font-semibold text-stone-700 dark:text-slate-200 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-text-primary dark:text-slate-200 mb-2">
                   Account Number
                 </label>
                 <input
@@ -816,11 +816,11 @@ export default function SavingsPage() {
                   value={account_no}
                   onChange={(e) => setAccount_no(e.target.value)}
                   placeholder="Enter Account Number"
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-900 text-sm sm:text-base text-stone-900 dark:text-white focus:outline-none focus:border-[#D96C4A] focus:ring-2 focus:ring-[#D96C4A]/20"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-border-sand dark:border-stone-600 bg-surface dark:bg-background-dim text-sm sm:text-base text-text-primary dark:text-white focus:outline-none focus:border-primary focus:ring-2 focus:ring-[#D96C4A]/20"
                 />
               </div>
               <div>
-                <label className="block text-xs sm:text-sm font-semibold text-stone-700 dark:text-slate-200 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-text-primary dark:text-slate-200 mb-2">
                   Amount (₦)
                 </label>
                 <input
@@ -829,7 +829,7 @@ export default function SavingsPage() {
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   placeholder="0.00"
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-900 text-sm sm:text-base text-stone-900 dark:text-white focus:outline-none focus:border-[#D96C4A] focus:ring-2 focus:ring-[#D96C4A]/20"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-border-sand dark:border-stone-600 bg-surface dark:bg-background-dim text-sm sm:text-base text-text-primary dark:text-white focus:outline-none focus:border-primary focus:ring-2 focus:ring-[#D96C4A]/20"
                 />
               </div>
               {bankingError && (
@@ -841,14 +841,14 @@ export default function SavingsPage() {
                 <button
                   type="button"
                   onClick={() => setShowWithdrawModal(false)}
-                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-full border border-stone-200 dark:border-stone-600 text-xs sm:text-sm text-stone-700 dark:text-slate-200 font-semibold hover:bg-stone-50 dark:hover:bg-stone-700 transition"
+                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-full border border-border-sand dark:border-stone-600 text-xs sm:text-sm text-text-primary dark:text-slate-200 font-semibold hover:bg-background-dim dark:hover:bg-stone-700 transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={bankingLoading}
-                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-full bg-[#D96C4A] text-xs sm:text-sm text-white font-semibold hover:bg-[#c45b3f] transition disabled:opacity-50"
+                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-full bg-primary text-xs sm:text-sm text-white font-semibold hover:bg-primary-hover transition disabled:opacity-50"
                 >
                   {bankingLoading ? "Processing..." : "Withdraw"}
                 </button>
@@ -861,13 +861,13 @@ export default function SavingsPage() {
       {/* Transfer Modal */}
       {showTransferModal && (
         <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-slate-950/50 p-4 md:p-6">
-          <div className="bg-white dark:bg-stone-800 rounded-t-[2rem] md:rounded-[2rem] p-6 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
-            <h2 className="text-xl sm:text-2xl font-bold text-[#111827] dark:text-white mb-4 sm:mb-6">
+          <div className="bg-surface dark:bg-surface rounded-t-[2rem] md:rounded-xl p-6 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
+            <h2 className="text-xl sm:text-2xl font-bold text-text-primary dark:text-white mb-4 sm:mb-6 font-serif">
               Transfer Funds
             </h2>
             <form onSubmit={handleTransfer} className="space-y-4">
               <div>
-                <label className="block text-xs sm:text-sm font-semibold text-stone-700 dark:text-slate-200 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-text-primary dark:text-slate-200 mb-2">
                   Source Account
                 </label>
                 <input
@@ -875,11 +875,11 @@ export default function SavingsPage() {
                   value={account_no}
                   onChange={(e) => setAccount_no(e.target.value)}
                   placeholder="Enter Source Account"
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-900 text-sm sm:text-base text-stone-900 dark:text-white focus:outline-none focus:border-[#D96C4A] focus:ring-2 focus:ring-[#D96C4A]/20"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-border-sand dark:border-stone-600 bg-surface dark:bg-background-dim text-sm sm:text-base text-text-primary dark:text-white focus:outline-none focus:border-primary focus:ring-2 focus:ring-[#D96C4A]/20"
                 />
               </div>
               <div>
-                <label className="block text-xs sm:text-sm font-semibold text-stone-700 dark:text-slate-200 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-text-primary dark:text-slate-200 mb-2">
                   Destination Account
                 </label>
                 <input
@@ -887,11 +887,11 @@ export default function SavingsPage() {
                   value={destination_account}
                   onChange={(e) => setDestination_account(e.target.value)}
                   placeholder="Enter Destination Account"
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-900 text-sm sm:text-base text-stone-900 dark:text-white focus:outline-none focus:border-[#D96C4A] focus:ring-2 focus:ring-[#D96C4A]/20"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-border-sand dark:border-stone-600 bg-surface dark:bg-background-dim text-sm sm:text-base text-text-primary dark:text-white focus:outline-none focus:border-primary focus:ring-2 focus:ring-[#D96C4A]/20"
                 />
               </div>
               <div>
-                <label className="block text-xs sm:text-sm font-semibold text-stone-700 dark:text-slate-200 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-text-primary dark:text-slate-200 mb-2">
                   Amount (₦)
                 </label>
                 <input
@@ -900,7 +900,7 @@ export default function SavingsPage() {
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   placeholder="0.00"
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-900 text-sm sm:text-base text-stone-900 dark:text-white focus:outline-none focus:border-[#D96C4A] focus:ring-2 focus:ring-[#D96C4A]/20"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-border-sand dark:border-stone-600 bg-surface dark:bg-background-dim text-sm sm:text-base text-text-primary dark:text-white focus:outline-none focus:border-primary focus:ring-2 focus:ring-[#D96C4A]/20"
                 />
               </div>
               {bankingError && (
@@ -912,14 +912,14 @@ export default function SavingsPage() {
                 <button
                   type="button"
                   onClick={() => setShowTransferModal(false)}
-                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-full border border-stone-200 dark:border-stone-600 text-xs sm:text-sm text-stone-700 dark:text-slate-200 font-semibold hover:bg-stone-50 dark:hover:bg-stone-700 transition"
+                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-full border border-border-sand dark:border-stone-600 text-xs sm:text-sm text-text-primary dark:text-slate-200 font-semibold hover:bg-background-dim dark:hover:bg-stone-700 transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={bankingLoading}
-                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-full bg-[#D96C4A] text-xs sm:text-sm text-white font-semibold hover:bg-[#c45b3f] transition disabled:opacity-50"
+                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-full bg-primary text-xs sm:text-sm text-white font-semibold hover:bg-primary-hover transition disabled:opacity-50"
                 >
                   {bankingLoading ? "Processing..." : "Transfer"}
                 </button>
@@ -932,7 +932,7 @@ export default function SavingsPage() {
       {/* Watering Can FAB */}
       <button
         onClick={() => setShowWaterModal(true)}
-        className="fixed bottom-6 md:bottom-8 right-4 md:right-8 w-14 h-14 md:w-16 md:h-16 rounded-full bg-[#D96C4A] text-white shadow-xl shadow-[#D96C4A]/40 flex items-center justify-center hover:scale-105 active:scale-95 transition-transform z-40 group"
+        className="fixed bottom-6 md:bottom-8 right-4 md:right-8 w-14 h-14 md:w-16 md:h-16 rounded-full bg-primary text-white shadow-xl shadow-[#D96C4A]/40 flex items-center justify-center hover:scale-105 active:scale-95 transition-transform z-40 group"
       >
         <Droplets className="w-6 h-6 md:w-8 md:h-8 group-hover:rotate-12 transition-transform" />
         <div className="absolute -top-12 right-0 bg-slate-900 text-white text-xs font-bold py-1 px-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">

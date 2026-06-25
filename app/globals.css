@@ -2,76 +2,83 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #fcf9f2;
-  --surface: #ffffff;
-  --surface-dim: #dcdad3;
-  --surface-container: #f1eee7;
-  --surface-container-low: #f6f3ec;
-  --surface-container-high: #ebe8e1;
-  --surface-container-highest: #e5e2db;
-  --on-surface: #1c1c18;
-  --on-surface-variant: #56423c;
-  --outline: #89726b;
-  --primary: #9c3e20;
-  --on-primary: #ffffff;
-  --primary-container: #bc5636;
-  --on-primary-container: #fffbff;
-  --secondary: #49654e;
-  --on-secondary: #ffffff;
-  --secondary-container: #c8e8cb;
-  --on-secondary-container: #4d6952;
-  --tertiary: #4a6153;
-  --on-tertiary: #ffffff;
-  --tertiary-container: #637a6b;
-  --on-tertiary-container: #f6fff6;
-  --error: #ba1a1a;
-  --on-error: #ffffff;
-  --error-container: #ffdad6;
-  --on-error-container: #93000a;
-  --background: #fcf9f2;
-  --on-background: #1c1c18;
-  --surface-variant: #e5e2db;
-  --radius: 1.5rem;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--on-background);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --background: #F8F4ED;
+  --background-dim: #F5F1EA;
+  --surface: #FAF8F4;
+  
+  --primary: #6B7A52;
+  --primary-hover: #586642;
+  
+  --secondary: #A7B396;
+  --secondary-hover: #96A386;
+  
+  --terracotta: #C97A5D;
+  --terracotta-hover: #B2664B;
+  
+  --text-primary: #2E2B28;
+  --text-secondary: #6B625A;
+  --border-sand: #E5DDD2;
+  
+  --radius-xl: 20px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
 }
 
 html.dark {
   color-scheme: dark;
-  --background: #020617;
-  --surface: #0f172a;
-  --surface-dim: #111827;
-  --surface-container: #111827;
-  --surface-container-low: #0f172a;
-  --surface-container-high: #1e293b;
-  --surface-container-highest: #1e293b;
-  --on-surface: #f8fafc;
-  --on-surface-variant: #cbd5e1;
-  --outline: #475569;
-  --primary: #f59e0b;
-  --on-primary: #0f172a;
-  --primary-container: #ea7a0c;
-  --on-primary-container: #f8fafc;
-  --secondary: #7dd3fc;
-  --on-secondary: #0f172a;
-  --secondary-container: #2563eb;
-  --on-secondary-container: #f8fafc;
-  --tertiary: #67e8f9;
-  --on-tertiary: #0f172a;
-  --surface-variant: #334155;
+  --background: #1C1E1A;
+  --background-dim: #161814;
+  --surface: #252822;
+  
+  --primary: #A7B396;
+  --primary-hover: #B8C5A8;
+  
+  --secondary: #6B7A52;
+  --secondary-hover: #586642;
+  
+  --terracotta: #DDA38F;
+  --terracotta-hover: #E3B4A2;
+  
+  --text-primary: #FAF8F4;
+  --text-secondary: #C2B9AD;
+  --border-sand: #3D4336;
+}
+
+@theme {
+  --color-background: var(--background);
+  --color-background-dim: var(--background-dim);
+  --color-surface: var(--surface);
+  
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  
+  --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
+  
+  --color-terracotta: var(--terracotta);
+  --color-terracotta-hover: var(--terracotta-hover);
+  
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-border-sand: var(--border-sand);
+  
+  --font-serif: var(--font-playfair), Cormorant Garamond, Lora, Playfair Display, serif;
+  --font-sans: var(--font-inter), Inter, Manrope, Source Sans Pro, sans-serif;
+  
+  --radius-xl: var(--radius-xl);
+  --radius-lg: var(--radius-lg);
+  --radius-md: var(--radius-md);
+  
+  --shadow-subtle: 0 4px 20px -2px rgba(46, 43, 40, 0.05), 0 2px 8px -1px rgba(46, 43, 40, 0.03);
+  --shadow-hover: 0 10px 30px -5px rgba(46, 43, 40, 0.08), 0 4px 12px -2px rgba(46, 43, 40, 0.04);
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--background);
-  color: var(--on-background);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
 }
 
 * {
@@ -79,5 +86,21 @@ body {
 }
 
 ::selection {
-  background: rgba(156, 62, 32, 0.16);
+  background: rgba(107, 122, 82, 0.2);
+}
+
+/* Custom Scrollbar for a minimalist feel */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--border-sand);
+  border-radius: 3px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
 }

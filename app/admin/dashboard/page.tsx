@@ -467,10 +467,10 @@ export default function AdminDashboardPage() {
   // Loading indicator for authentication roles verification
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#FAFAF8] dark:bg-[#020617] p-6">
+      <div className="min-h-screen flex items-center justify-center bg-background  p-6">
         <div className="text-center">
           <div className="animate-spin inline-block w-8 h-8 border-4 border-[#9c3e20]/20 border-t-[#9c3e20] rounded-full mb-4" />
-          <p className="text-stone-600 dark:text-slate-350">Verifying staff clearance level credentials...</p>
+          <p className="text-text-secondary dark:text-slate-350">Verifying staff clearance level credentials...</p>
         </div>
       </div>
     );
@@ -479,26 +479,26 @@ export default function AdminDashboardPage() {
   // Fallback "Access Denied" view
   if (!authorized) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#FAFAF8] dark:bg-[#020617] p-4 sm:p-6">
-        <div className="max-w-xl w-full rounded-[2rem] bg-white dark:bg-slate-900 border border-stone-200 dark:border-slate-800 p-8 sm:p-12 shadow-xl text-center space-y-6">
+      <div className="min-h-screen flex items-center justify-center bg-background  p-4 sm:p-6">
+        <div className="max-w-xl w-full rounded-xl bg-surface dark:bg-surface border border-border-sand dark:border-border-sand/40 p-8 sm:p-12 shadow-xl text-center space-y-6">
           <div className="w-16 h-16 rounded-full bg-[#fce8e6] dark:bg-[#3d1614] text-[#ba1a1a] flex items-center justify-center mx-auto shadow-sm">
             <ShieldAlert className="w-8 h-8" />
           </div>
           <div className="space-y-2">
-            <h1 className="text-2xl sm:text-4xl font-serif font-bold text-stone-900 dark:text-stone-100">
+            <h1 className="text-2xl sm:text-4xl font-serif font-bold text-text-primary dark:text-stone-100">
               Clearance Level Required
             </h1>
-            <p className="text-sm sm:text-base text-stone-600 dark:text-slate-350 max-w-md mx-auto leading-relaxed">
+            <p className="text-sm sm:text-base text-text-secondary dark:text-slate-350 max-w-md mx-auto leading-relaxed">
               This administrative dashboard is restricted to authorized Staff, Tellers, Managers, and Auditors. Your current session does not include staff credentials.
             </p>
           </div>
-          <div className="p-4 rounded-xl bg-amber-50 dark:bg-amber-955/20 border border-amber-200 dark:border-amber-900 text-stone-700 dark:text-amber-300 text-xs sm:text-sm">
+          <div className="p-4 rounded-xl bg-amber-50 dark:bg-amber-955/20 border border-amber-200 dark:border-amber-900 text-text-primary dark:text-amber-300 text-xs sm:text-sm">
             🛡️ Your connection attempt has been securely logged to the centralized database system sequence.
           </div>
           <div className="pt-2">
             <button
               onClick={() => router.push("/dashboard")}
-              className="px-8 py-3 rounded-full bg-[#9c3e20] hover:bg-[#833116] text-white font-semibold transition-all shadow-md active:scale-95 text-sm sm:text-base w-full cursor-pointer"
+              className="px-8 py-3 rounded-full bg-primary hover:bg-primary-hover text-white font-semibold transition-all shadow-md active:scale-95 text-sm sm:text-base w-full cursor-pointer"
             >
               Return to standard dashboard
             </button>
@@ -509,22 +509,22 @@ export default function AdminDashboardPage() {
   }
 
   return (
-    <div className={`min-h-screen bg-[#FAFAF8] dark:bg-[#020617] p-4 sm:p-8 ${preferences.dyslexia_font ? "font-mono tracking-wide" : ""}`}>
+    <div className={`min-h-screen bg-background  p-4 sm:p-8 ${preferences.dyslexia_font ? "font-mono tracking-wide" : ""}`}>
       <div className="max-w-7xl mx-auto space-y-8">
         
         {/* Page Title & Clearance Indicator */}
-        <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-stone-200 dark:border-stone-800 pb-6">
+        <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border-sand dark:border-stone-800 pb-6">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#EFF6EE] text-[#4d6952] border border-[#d2e8d4] uppercase tracking-wider">
+              <span className="px-3 py-1 rounded-full text-xs font-bold bg-background-dim text-primary border border-[#d2e8d4] uppercase tracking-wider">
                 Clearance: {userRole}
               </span>
               <span className="h-2 w-2 rounded-full bg-emerald-500 animate-ping"></span>
             </div>
-            <h1 className="text-3xl sm:text-5xl font-serif font-bold text-stone-900 dark:text-stone-150">
+            <h1 className="text-3xl sm:text-5xl font-serif font-bold text-text-primary dark:text-stone-150">
               Staff Override Panel
             </h1>
-            <p className="text-sm sm:text-base text-stone-500 dark:text-slate-400 mt-1">
+            <p className="text-sm sm:text-base text-text-secondary dark:text-slate-400 mt-1">
               Authorized real-time database override, liquid balance tracker, and sequence activity control.
             </p>
           </div>
@@ -532,7 +532,7 @@ export default function AdminDashboardPage() {
           <div className="flex gap-2">
             <button
               onClick={() => window.location.reload()}
-              className="flex items-center gap-2 px-4 py-2 text-xs sm:text-sm font-semibold rounded-full border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 hover:bg-stone-50 dark:hover:bg-stone-750 transition cursor-pointer text-stone-700 dark:text-stone-300"
+              className="flex items-center gap-2 px-4 py-2 text-xs sm:text-sm font-semibold rounded-full border border-border-sand dark:border-border-sand/40 bg-surface dark:bg-surface hover:bg-background-dim dark:hover:bg-stone-750 transition cursor-pointer text-text-primary dark:text-stone-300"
             >
               <RefreshCw className="w-4 h-4" />
               Reload Metrics
@@ -542,10 +542,10 @@ export default function AdminDashboardPage() {
 
         {/* Cognitive Calming Reassurance for Anxiety Mode */}
         {preferences.anxiety_mode && (
-          <div className="p-5 rounded-2xl bg-[#EFF6EE] dark:bg-emerald-950/20 border border-[#cbebce] dark:border-emerald-900/60 text-[#10331C] dark:text-emerald-300 flex items-start gap-4 shadow-sm">
+          <div className="p-5 rounded-2xl bg-background-dim dark:bg-emerald-950/20 border border-border-sand dark:border-emerald-900/60 text-text-primary font-serif dark:text-emerald-300 flex items-start gap-4 shadow-sm">
             <span className="text-2xl pt-0.5 shrink-0">🌱</span>
             <div className="space-y-1">
-              <h4 className="font-semibold text-sm sm:text-base">Empathetic Operational Protocol</h4>
+              <h4 className="font-semibold text-sm sm:text-base font-serif">Empathetic Operational Protocol</h4>
               <p className="text-xs sm:text-sm opacity-90 leading-relaxed">
                 Take your time. Overriding administrative actions operate under strict ACID database safety guidelines. No procedures will be permanently stored until you double-check all numeric inputs. Re-verify account numbers before submitting.
               </p>
@@ -565,20 +565,20 @@ export default function AdminDashboardPage() {
           <div className={`p-4 sm:p-5 rounded-2xl flex items-start gap-4 shadow-sm border transition-all duration-300
             ${
               preferences.high_contrast_mode
-                ? "bg-white border-2 border-black text-black dark:bg-black dark:text-white rounded-none font-bold"
+                ? "bg-surface border-2 border-black text-black dark:bg-black dark:text-white rounded-none font-bold"
                 : "bg-emerald-50 dark:bg-emerald-950/20 border-emerald-250 dark:border-emerald-900 text-emerald-800 dark:text-emerald-300"
             }
           `}>
             <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-600 mt-0.5" />
             <div className="space-y-1 flex-1">
-              <h4 className="font-semibold text-sm sm:text-base">System Batch Completed</h4>
+              <h4 className="font-semibold text-sm sm:text-base font-serif">System Batch Completed</h4>
               <p className="text-xs sm:text-sm opacity-90 leading-relaxed">
                 Global monthly maintenance simulation completed successfully! Outstanding fees settled and interest distributions credited to the database sequences.
               </p>
             </div>
             <button
               onClick={() => setMaintenanceSuccess(null)}
-              className="ml-auto text-xs font-semibold hover:opacity-75 cursor-pointer px-2 py-1 rounded bg-stone-200/50 dark:bg-stone-850"
+              className="ml-auto text-xs font-semibold hover:opacity-75 cursor-pointer px-2 py-1 rounded bg-stone-200/50 dark:bg-background-dim"
             >
               Dismiss
             </button>
@@ -589,20 +589,20 @@ export default function AdminDashboardPage() {
           <div className={`p-4 sm:p-5 rounded-2xl flex items-start gap-4 shadow-sm border transition-all duration-300
             ${
               preferences.high_contrast_mode
-                ? "bg-white border-2 border-black text-black dark:bg-black dark:text-white rounded-none font-bold"
+                ? "bg-surface border-2 border-black text-black dark:bg-black dark:text-white rounded-none font-bold"
                 : "bg-rose-50 dark:bg-rose-955/20 border-rose-250 dark:border-rose-900 text-rose-800 dark:text-rose-350"
             }
           `}>
             <AlertTriangle className="w-5 h-5 shrink-0 text-rose-600 mt-0.5" />
             <div className="space-y-1 flex-1">
-              <h4 className="font-semibold text-sm sm:text-base">Simulation Error Notification</h4>
+              <h4 className="font-semibold text-sm sm:text-base font-serif">Simulation Error Notification</h4>
               <p className="text-xs sm:text-sm opacity-90 leading-relaxed">
                 {maintenanceError}
               </p>
             </div>
             <button
               onClick={() => setMaintenanceError(null)}
-              className="ml-auto text-xs font-semibold hover:opacity-75 cursor-pointer px-2 py-1 rounded bg-stone-200/50 dark:bg-stone-850"
+              className="ml-auto text-xs font-semibold hover:opacity-75 cursor-pointer px-2 py-1 rounded bg-stone-200/50 dark:bg-background-dim"
             >
               Dismiss
             </button>
@@ -617,17 +617,17 @@ export default function AdminDashboardPage() {
           <div className="lg:col-span-2 space-y-6 sm:space-y-8">
             
             {/* System Branch Liquidity Chart Container */}
-            <section className="bg-white dark:bg-slate-900 border border-stone-200/60 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-sm">
+            <section className="bg-surface dark:bg-surface border border-border-sand/60 dark:border-border-sand/40 rounded-xl p-6 sm:p-8 shadow-sm">
               <div className="flex justify-between items-center mb-6">
                 <div>
-                  <h2 className="text-xl sm:text-2xl font-serif font-bold text-stone-900 dark:text-stone-100">
+                  <h2 className="text-xl sm:text-2xl font-serif font-bold text-text-primary dark:text-stone-100">
                     System Branch Liquidity
                   </h2>
-                  <p className="text-xs sm:text-sm text-stone-500 dark:text-slate-400">
+                  <p className="text-xs sm:text-sm text-text-secondary dark:text-slate-400">
                     Real-time mock volume distribution matching defined primary palette.
                   </p>
                 </div>
-                <div className="p-2.5 rounded-full bg-[#D96C4A]/10 text-[#D96C4A]">
+                <div className="p-2.5 rounded-full bg-primary/10 text-primary">
                   <TrendingUp className="w-5 h-5" />
                 </div>
               </div>
@@ -635,7 +635,7 @@ export default function AdminDashboardPage() {
               {dataLoading ? (
                 <div className="h-48 flex items-center justify-center">
                   <div className="animate-pulse flex space-x-2">
-                    <span className="text-sm text-stone-500">Loading branch volumes...</span>
+                    <span className="text-sm text-text-secondary">Loading branch volumes...</span>
                   </div>
                 </div>
               ) : (
@@ -645,10 +645,10 @@ export default function AdminDashboardPage() {
                     {liquidityData.map((branch) => (
                       <div key={branch.name} className="space-y-2">
                         <div className="flex justify-between text-xs sm:text-sm font-semibold">
-                          <span className="text-stone-700 dark:text-stone-200">{branch.name}</span>
+                          <span className="text-text-primary dark:text-stone-200">{branch.name}</span>
                           <div className="space-x-2">
-                            <span className="text-stone-500 dark:text-slate-400">({branch.percentage}%)</span>
-                            <span className="text-[#D96C4A] dark:text-[#f39575]">
+                            <span className="text-text-secondary dark:text-slate-400">({branch.percentage}%)</span>
+                            <span className="text-primary dark:text-[#f39575]">
                               {formatCurrency(branch.volume)}
                             </span>
                           </div>
@@ -664,19 +664,19 @@ export default function AdminDashboardPage() {
                   </div>
 
                   {/* Aggregate card */}
-                  <div className="mt-4 p-4 sm:p-5 rounded-2xl bg-stone-50 dark:bg-stone-950 border border-stone-200/40 dark:border-stone-850 flex items-center justify-between">
+                  <div className="mt-4 p-4 sm:p-5 rounded-2xl bg-background-dim dark:bg-stone-950 border border-border-sand/40 dark:border-stone-850 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-[#EFF6EE] text-[#4d6952] flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-full bg-background-dim text-primary flex items-center justify-center">
                         <DollarSign className="w-5 h-5" />
                       </div>
                       <div>
-                        <p className="text-xs text-stone-500 dark:text-slate-400 uppercase tracking-wider">Total Reserves Pool</p>
+                        <p className="text-xs text-text-secondary dark:text-slate-400 uppercase tracking-wider">Total Reserves Pool</p>
                         <p className="text-base sm:text-xl font-bold text-stone-800 dark:text-stone-150">
                           {formatCurrency(liquidityData.reduce((acc, b) => acc + b.volume, 0))}
                         </p>
                       </div>
                     </div>
-                    <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-[#4d6952] bg-[#EFF6EE] px-3 py-1 rounded-full border border-[#d2e8d4]">
+                    <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-primary bg-background-dim px-3 py-1 rounded-full border border-[#d2e8d4]">
                       ACID Liquid
                     </span>
                   </div>
@@ -685,13 +685,13 @@ export default function AdminDashboardPage() {
             </section>
 
             {/* Real-time Interactive Audit Logs Container */}
-            <section className="bg-white dark:bg-slate-900 border border-stone-200/60 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-sm">
+            <section className="bg-surface dark:bg-surface border border-border-sand/60 dark:border-border-sand/40 rounded-xl p-6 sm:p-8 shadow-sm">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                 <div>
-                  <h2 className="text-xl sm:text-2xl font-serif font-bold text-stone-900 dark:text-stone-100">
+                  <h2 className="text-xl sm:text-2xl font-serif font-bold text-text-primary dark:text-stone-100">
                     Oracle Sequence Audit stream
                   </h2>
-                  <p className="text-xs sm:text-sm text-stone-500 dark:text-slate-400">
+                  <p className="text-xs sm:text-sm text-text-secondary dark:text-slate-400">
                     ACID-compliant tabular sequence logs indicating failed database operations & entries.
                   </p>
                 </div>
@@ -699,7 +699,7 @@ export default function AdminDashboardPage() {
                   <select
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value as any)}
-                    className="px-3 py-1.5 bg-stone-50 dark:bg-stone-800 text-xs sm:text-sm text-stone-700 dark:text-stone-200 border border-stone-200 dark:border-stone-700 rounded-full outline-none focus:ring-2 focus:ring-[#D96C4A]/20"
+                    className="px-3 py-1.5 bg-background-dim dark:bg-surface text-xs sm:text-sm text-text-primary dark:text-stone-200 border border-border-sand dark:border-border-sand/40 rounded-full outline-none focus:ring-2 focus:ring-[#D96C4A]/20"
                   >
                     <option value="ALL">All Status</option>
                     <option value="SUCCESS">Success Only</option>
@@ -715,7 +715,7 @@ export default function AdminDashboardPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search logs by Operation, Staff ID, or Details..."
-                  className="w-full pl-10 pr-4 py-2.5 bg-stone-50 dark:bg-stone-950 text-xs sm:text-sm text-stone-800 dark:text-stone-100 border border-stone-200 dark:border-stone-700 rounded-xl outline-none focus:border-[#D96C4A] focus:ring-2 focus:ring-[#D96C4A]/20 transition-all"
+                  className="w-full pl-10 pr-4 py-2.5 bg-background-dim dark:bg-stone-950 text-xs sm:text-sm text-stone-800 dark:text-stone-100 border border-border-sand dark:border-border-sand/40 rounded-xl outline-none focus:border-primary focus:ring-2 focus:ring-[#D96C4A]/20 transition-all"
                 />
                 <Search className="absolute left-3.5 top-3.5 w-4 h-4 text-stone-400" />
               </div>
@@ -723,14 +723,14 @@ export default function AdminDashboardPage() {
               {/* Tabular logs frame */}
               {dataLoading ? (
                 <div className="h-64 flex items-center justify-center">
-                  <span className="text-sm text-stone-500">Retrieving security sequence logs...</span>
+                  <span className="text-sm text-text-secondary">Retrieving security sequence logs...</span>
                 </div>
               ) : (
                 <div className="overflow-x-auto rounded-2xl border border-stone-100 dark:border-stone-800">
                   <div className="max-h-[360px] overflow-y-auto custom-scrollbar">
                     <table className="w-full text-left text-xs sm:text-sm border-collapse">
-                      <thead className="sticky top-0 bg-stone-100 dark:bg-stone-950 text-stone-600 dark:text-slate-400 font-semibold z-10">
-                        <tr className="border-b border-stone-200 dark:border-stone-800">
+                      <thead className="sticky top-0 bg-stone-100 dark:bg-stone-950 text-text-secondary dark:text-slate-400 font-semibold z-10">
+                        <tr className="border-b border-border-sand dark:border-stone-800">
                           <th className="p-4">Timestamp</th>
                           <th className="p-4">Operation</th>
                           <th className="p-4">Staff ID</th>
@@ -741,7 +741,7 @@ export default function AdminDashboardPage() {
                       <tbody>
                         {filteredLogs.length === 0 ? (
                           <tr>
-                            <td colSpan={5} className="p-8 text-center text-stone-500 dark:text-slate-500 italic">
+                            <td colSpan={5} className="p-8 text-center text-text-secondary dark:text-text-secondary italic">
                               No matching sequence entry logs detected.
                             </td>
                           </tr>
@@ -749,9 +749,9 @@ export default function AdminDashboardPage() {
                           filteredLogs.map((log) => (
                             <tr
                               key={log.id}
-                              className="border-b border-stone-50/50 dark:border-stone-850 hover:bg-stone-50/50 dark:hover:bg-stone-800/40 transition-colors"
+                              className="border-b border-stone-50/50 dark:border-stone-850 hover:bg-background-dim/50 dark:hover:bg-stone-800/40 transition-colors"
                             >
-                              <td className="p-4 whitespace-nowrap text-stone-500 dark:text-slate-400 font-mono text-[10px] sm:text-xs">
+                              <td className="p-4 whitespace-nowrap text-text-secondary dark:text-slate-400 font-mono text-[10px] sm:text-xs">
                                 {new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
                               </td>
                               <td className="p-4 whitespace-nowrap font-bold">
@@ -759,7 +759,7 @@ export default function AdminDashboardPage() {
                                   {log.operation}
                                 </span>
                               </td>
-                              <td className="p-4 whitespace-nowrap text-stone-600 dark:text-stone-300 font-semibold font-mono">
+                              <td className="p-4 whitespace-nowrap text-text-secondary dark:text-stone-300 font-semibold font-mono">
                                 {log.staff_id}
                               </td>
                               <td className="p-4">
@@ -773,7 +773,7 @@ export default function AdminDashboardPage() {
                                   {log.status}
                                 </span>
                               </td>
-                              <td className="p-4 text-xs text-stone-500 dark:text-slate-350 min-w-[220px]">
+                              <td className="p-4 text-xs text-text-secondary dark:text-slate-350 min-w-[220px]">
                                 {log.details}
                               </td>
                             </tr>
@@ -792,22 +792,22 @@ export default function AdminDashboardPage() {
           <div className="space-y-6 sm:space-y-8">
             
             {/* Staff Manual Override Form Container */}
-            <section className="bg-white dark:bg-slate-900 border border-stone-200/60 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-sm flex flex-col justify-between h-fit">
+            <section className="bg-surface dark:bg-surface border border-border-sand/60 dark:border-border-sand/40 rounded-xl p-6 sm:p-8 shadow-sm flex flex-col justify-between h-fit">
               
               {/* Header Form */}
               <div className="space-y-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <Sliders className="w-5 h-5 text-[#D96C4A]" />
-                  <h2 className="text-xl sm:text-2xl font-serif font-bold text-stone-900 dark:text-stone-100">
+                  <Sliders className="w-5 h-5 text-primary" />
+                  <h2 className="text-xl sm:text-2xl font-serif font-bold text-text-primary dark:text-stone-100">
                     Manual Overrides
                   </h2>
                 </div>
-                <p className="text-xs sm:text-sm text-stone-500 dark:text-slate-400">
+                <p className="text-xs sm:text-sm text-text-secondary dark:text-slate-400">
                   Trigger transactional overrides modifying accounts with proper focus rings & clearance tags.
                 </p>
 
                 {/* Action Tabs selection */}
-                <div className="flex p-1 bg-stone-50 dark:bg-stone-950 border border-stone-100 dark:border-stone-850 rounded-full">
+                <div className="flex p-1 bg-background-dim dark:bg-stone-950 border border-stone-100 dark:border-stone-850 rounded-full">
                   <button
                     type="button"
                     onClick={() => {
@@ -817,8 +817,8 @@ export default function AdminDashboardPage() {
                     }}
                     className={`flex-1 text-center py-2 text-[10px] sm:text-xs font-bold rounded-full transition-all cursor-pointer ${
                       activeTab === "deposit"
-                        ? "bg-[#D96C4A] text-white shadow-sm"
-                        : "text-stone-600 dark:text-stone-400 hover:text-stone-800"
+                        ? "bg-primary text-white shadow-sm"
+                        : "text-text-secondary dark:text-stone-400 hover:text-stone-800"
                     }`}
                   >
                     Deposit
@@ -832,8 +832,8 @@ export default function AdminDashboardPage() {
                     }}
                     className={`flex-1 text-center py-2 text-[10px] sm:text-xs font-bold rounded-full transition-all cursor-pointer ${
                       activeTab === "withdrawal"
-                        ? "bg-[#D96C4A] text-white shadow-sm"
-                        : "text-stone-600 dark:text-stone-400 hover:text-stone-800"
+                        ? "bg-primary text-white shadow-sm"
+                        : "text-text-secondary dark:text-stone-400 hover:text-stone-800"
                     }`}
                   >
                     Withdraw
@@ -847,8 +847,8 @@ export default function AdminDashboardPage() {
                     }}
                     className={`flex-1 text-center py-2 text-[10px] sm:text-xs font-bold rounded-full transition-all cursor-pointer ${
                       activeTab === "transfer"
-                        ? "bg-[#D96C4A] text-white shadow-sm"
-                        : "text-stone-600 dark:text-stone-400 hover:text-stone-800"
+                        ? "bg-primary text-white shadow-sm"
+                        : "text-text-secondary dark:text-stone-400 hover:text-stone-800"
                     }`}
                   >
                     ACID Transfer
@@ -875,7 +875,7 @@ export default function AdminDashboardPage() {
                   
                   {/* Account Number */}
                   <div className="space-y-2">
-                    <label className="block text-xs sm:text-sm font-semibold text-stone-700 dark:text-stone-300">
+                    <label className="block text-xs sm:text-sm font-semibold text-text-primary dark:text-stone-300">
                       {activeTab === "transfer" ? "Source Account No" : "Account Number"}
                     </label>
                     <input
@@ -884,11 +884,11 @@ export default function AdminDashboardPage() {
                       value={accountNo}
                       onChange={(e) => setAccountNo(e.target.value)}
                       placeholder="e.g. 100200300"
-                      className={`w-full px-4 py-3 bg-white dark:bg-stone-900 text-stone-900 dark:text-white text-xs sm:text-sm placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#D96C4A]/20 focus:border-[#D96C4A] transition-all
+                      className={`w-full px-4 py-3 bg-surface dark:bg-background-dim text-text-primary dark:text-white text-xs sm:text-sm placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#D96C4A]/20 focus:border-primary transition-all
                         ${
                           preferences.high_contrast_mode
                             ? "border-2 border-black dark:border-white rounded-none font-bold focus:border-red-650"
-                            : "border border-stone-250 dark:border-stone-700 rounded-xl"
+                            : "border border-stone-250 dark:border-border-sand/40 rounded-xl"
                         }
                       `}
                     />
@@ -897,7 +897,7 @@ export default function AdminDashboardPage() {
                   {/* Destination Account Number (Only Administrative Transfer) */}
                   {activeTab === "transfer" && (
                     <div className="space-y-2">
-                      <label className="block text-xs sm:text-sm font-semibold text-stone-700 dark:text-stone-300">
+                      <label className="block text-xs sm:text-sm font-semibold text-text-primary dark:text-stone-300">
                         Destination Account No
                       </label>
                       <input
@@ -906,11 +906,11 @@ export default function AdminDashboardPage() {
                         value={destAccount}
                         onChange={(e) => setDestAccount(e.target.value)}
                         placeholder="e.g. 100990442"
-                        className={`w-full px-4 py-3 bg-white dark:bg-stone-900 text-stone-900 dark:text-white text-xs sm:text-sm placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#D96C4A]/20 focus:border-[#D96C4A] transition-all
+                        className={`w-full px-4 py-3 bg-surface dark:bg-background-dim text-text-primary dark:text-white text-xs sm:text-sm placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#D96C4A]/20 focus:border-primary transition-all
                           ${
                             preferences.high_contrast_mode
                               ? "border-2 border-black dark:border-white rounded-none font-bold focus:border-red-655"
-                              : "border border-stone-250 dark:border-stone-700 rounded-xl"
+                              : "border border-stone-250 dark:border-border-sand/40 rounded-xl"
                           }
                         `}
                       />
@@ -920,7 +920,7 @@ export default function AdminDashboardPage() {
                   {/* Amount field */}
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <label className="block text-xs sm:text-sm font-semibold text-stone-700 dark:text-stone-300">
+                      <label className="block text-xs sm:text-sm font-semibold text-text-primary dark:text-stone-300">
                         Override Amount (₦)
                       </label>
                       {preferences.simplified_numbers && (
@@ -936,11 +936,11 @@ export default function AdminDashboardPage() {
                       value={amount}
                       onChange={(e) => setAmount(e.target.value)}
                       placeholder="0.00"
-                      className={`w-full px-4 py-3 bg-white dark:bg-stone-900 text-stone-900 dark:text-white text-xs sm:text-sm placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#D96C4A]/20 focus:border-[#D96C4A] transition-all
+                      className={`w-full px-4 py-3 bg-surface dark:bg-background-dim text-text-primary dark:text-white text-xs sm:text-sm placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#D96C4A]/20 focus:border-primary transition-all
                         ${
                           preferences.high_contrast_mode
                             ? "border-2 border-black dark:border-white rounded-none font-bold focus:border-red-660"
-                            : "border border-stone-250 dark:border-stone-700 rounded-xl"
+                            : "border border-stone-250 dark:border-border-sand/40 rounded-xl"
                         }
                       `}
                     />
@@ -949,7 +949,7 @@ export default function AdminDashboardPage() {
                   {/* Staff ID authorization (Only for Deposits & Withdrawals) */}
                   {activeTab !== "transfer" && (
                     <div className="space-y-2">
-                      <label className="block text-xs sm:text-sm font-semibold text-stone-700 dark:text-stone-300">
+                      <label className="block text-xs sm:text-sm font-semibold text-text-primary dark:text-stone-300">
                         Authorizing Staff ID
                       </label>
                       <input
@@ -958,11 +958,11 @@ export default function AdminDashboardPage() {
                         value={staffId}
                         onChange={(e) => setStaffId(e.target.value)}
                         placeholder="e.g. TL-4011"
-                        className={`w-full px-4 py-3 bg-white dark:bg-stone-900 text-stone-900 dark:text-white text-xs sm:text-sm placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#D96C4A]/20 focus:border-[#D96C4A] transition-all
+                        className={`w-full px-4 py-3 bg-surface dark:bg-background-dim text-text-primary dark:text-white text-xs sm:text-sm placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#D96C4A]/20 focus:border-primary transition-all
                           ${
                             preferences.high_contrast_mode
                               ? "border-2 border-black dark:border-white rounded-none font-bold focus:border-red-665"
-                              : "border border-stone-250 dark:border-stone-700 rounded-xl"
+                              : "border border-stone-250 dark:border-border-sand/40 rounded-xl"
                           }
                         `}
                       />
@@ -977,9 +977,9 @@ export default function AdminDashboardPage() {
                       className={`w-full py-3 px-4 font-semibold text-xs sm:text-sm text-white flex items-center justify-center gap-2 cursor-pointer transition-all duration-300 hover:opacity-90 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed
                         ${
                           preferences.high_contrast_mode
-                            ? "bg-black border-2 border-black dark:bg-white dark:text-black rounded-none uppercase font-bold text-white dark:text-black"
+                            ? "bg-black border-2 border-black dark:bg-surface dark:text-black rounded-none uppercase font-bold text-white dark:text-black"
                             : activeTab === "deposit"
-                            ? "bg-[#D96C4A] rounded-xl shadow-md"
+                            ? "bg-primary rounded-xl shadow-md"
                             : activeTab === "withdrawal"
                             ? "bg-[#49654e] rounded-xl shadow-md"
                             : "bg-slate-700 rounded-xl shadow-md"
@@ -1011,7 +1011,7 @@ export default function AdminDashboardPage() {
               </div>
 
               {/* Empathetic footer info */}
-              <div className="mt-8 border-t border-stone-100 dark:border-stone-850 pt-4 flex gap-2 items-center text-[10px] text-stone-400 dark:text-slate-500 leading-normal">
+              <div className="mt-8 border-t border-stone-100 dark:border-stone-850 pt-4 flex gap-2 items-center text-[10px] text-stone-400 dark:text-text-secondary leading-normal">
                 <Sparkles className="w-5 h-5 shrink-0 text-amber-500" />
                 <span>
                   Oracle sequence overrides bypass user-side checking. All operations are recorded under full audit trail transparency.
@@ -1024,20 +1024,20 @@ export default function AdminDashboardPage() {
             <section className={`p-6 sm:p-8 shadow-sm flex flex-col justify-between h-fit transition-all duration-300
               ${
                 preferences.high_contrast_mode
-                  ? "bg-white border-2 border-black dark:bg-stone-900 dark:border-white rounded-none"
-                  : "bg-white dark:bg-slate-900 border border-stone-200/60 dark:border-slate-800 rounded-3xl"
+                  ? "bg-surface border-2 border-black dark:bg-background-dim dark:border-white rounded-none"
+                  : "bg-surface dark:bg-surface border border-border-sand/60 dark:border-border-sand/40 rounded-xl"
               }
             `}>
               <div className="space-y-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <RefreshCw className={`w-5 h-5 ${maintenanceLoading ? "animate-spin" : ""} text-[#D96C4A]`} />
-                  <h2 className={`font-serif font-bold text-stone-900 dark:text-stone-100
+                  <RefreshCw className={`w-5 h-5 ${maintenanceLoading ? "animate-spin" : ""} text-primary`} />
+                  <h2 className={`font-serif font-bold text-text-primary dark:text-stone-100
                     ${preferences.high_contrast_mode ? "text-xl sm:text-2xl font-bold uppercase tracking-wider text-black dark:text-white animate-pulse" : "text-xl sm:text-2xl"}
                   `}>
                     Ledger Maintenance
                   </h2>
                 </div>
-                <p className="text-xs sm:text-sm text-stone-500 dark:text-slate-400">
+                <p className="text-xs sm:text-sm text-text-secondary dark:text-slate-400">
                   Trigger the backend banking engine execution loop to process monthly interest distributions and service fees globally.
                 </p>
 
@@ -1050,8 +1050,8 @@ export default function AdminDashboardPage() {
                     className={`w-full py-3 px-4 font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer transition-all duration-300 hover:opacity-90 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed
                       ${
                         preferences.high_contrast_mode
-                          ? "bg-black border-2 border-black text-white dark:bg-white dark:text-black rounded-none uppercase font-bold"
-                          : "bg-[#D96C4A] text-white rounded-xl shadow-md"
+                          ? "bg-black border-2 border-black text-white dark:bg-surface dark:text-black rounded-none uppercase font-bold"
+                          : "bg-primary text-white rounded-xl shadow-md"
                       }
                     `}
                   >
@@ -1071,9 +1071,9 @@ export default function AdminDashboardPage() {
 
                 {/* Native loading block inside container during pending simulation */}
                 {maintenanceLoading && (
-                  <div className="mt-2 p-4 border border-stone-250 dark:border-stone-850 bg-stone-50 dark:bg-stone-950 rounded-2xl flex items-center gap-3 animate-pulse">
-                    <div className="h-2 w-2 rounded-full bg-[#D96C4A] animate-ping" />
-                    <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-[#786c62] dark:text-[#d6cabf]">
+                  <div className="mt-2 p-4 border border-stone-250 dark:border-stone-850 bg-background-dim dark:bg-stone-950 rounded-2xl flex items-center gap-3 animate-pulse">
+                    <div className="h-2 w-2 rounded-full bg-primary animate-ping" />
+                    <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-text-secondary dark:text-[#d6cabf]">
                       Syncing Oracle Ledger Pipelines...
                     </span>
                   </div>
@@ -1081,7 +1081,7 @@ export default function AdminDashboardPage() {
               </div>
 
               {/* Security audit indicator */}
-              <div className="mt-6 border-t border-stone-100 dark:border-stone-850 pt-4 flex gap-2 items-center text-[10px] text-stone-400 dark:text-slate-500 leading-normal">
+              <div className="mt-6 border-t border-stone-100 dark:border-stone-850 pt-4 flex gap-2 items-center text-[10px] text-stone-400 dark:text-text-secondary leading-normal">
                 <ShieldAlert className="w-5 h-5 shrink-0 text-amber-500" />
                 <span>
                   Ledger maintenance simulation executes transactional batches. Dispatched procedures cannot be rolled back.
@@ -1098,30 +1098,30 @@ export default function AdminDashboardPage() {
       {/* Calm Confirmation Overlay for Anxiety Mode */}
       {showConfirmationModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 sm:p-6 backdrop-blur-sm transition-all duration-300">
-          <div className={`bg-white dark:bg-slate-900 p-6 sm:p-8 max-w-md w-full shadow-2xl transition-all duration-300
+          <div className={`bg-surface dark:bg-surface p-6 sm:p-8 max-w-md w-full shadow-2xl transition-all duration-300
             ${preferences.dyslexia_font ? "font-mono tracking-wide leading-relaxed" : ""} 
             ${
               preferences.high_contrast_mode
                 ? "border-4 border-black dark:border-white rounded-none"
-                : "border border-stone-100 dark:border-stone-700 rounded-[2rem]"
+                : "border border-stone-100 dark:border-border-sand/40 rounded-xl"
             }
           `}>
             
             {/* Calming reassurance banner */}
-            <div className="p-5 rounded-2xl bg-[#EFF6EE] dark:bg-emerald-950/20 border border-[#cbebce] dark:border-emerald-900/60 text-[#10331C] dark:text-emerald-300 text-xs sm:text-sm mb-6 flex items-start gap-4 shadow-sm">
+            <div className="p-5 rounded-2xl bg-background-dim dark:bg-emerald-950/20 border border-border-sand dark:border-emerald-900/60 text-text-primary font-serif dark:text-emerald-300 text-xs sm:text-sm mb-6 flex items-start gap-4 shadow-sm">
               <span className="text-2xl pt-0.5 shrink-0">🌱</span>
               <div className="space-y-1">
-                <h4 className="font-semibold text-sm sm:text-base">Empathetic Operational Check</h4>
+                <h4 className="font-semibold text-sm sm:text-base font-serif">Empathetic Operational Check</h4>
                 <p className="text-xs sm:text-sm opacity-90 leading-relaxed font-sans">
                   Take a slow breath. You are triggering a monthly ledger maintenance simulation. This processes service fees and distributes savings interest globally.
                 </p>
               </div>
             </div>
 
-            <h2 className="text-xl sm:text-2xl font-bold text-stone-900 dark:text-white mb-2 font-serif">
+            <h2 className="text-xl sm:text-2xl font-bold text-text-primary dark:text-white mb-2 font-serif">
               Double-Check Simulation
             </h2>
-            <p className="text-xs sm:text-sm text-stone-500 dark:text-slate-400 mb-6 leading-relaxed">
+            <p className="text-xs sm:text-sm text-text-secondary dark:text-slate-400 mb-6 leading-relaxed">
               Confirming this simulation helps ensure all operations match security levels. Take all the time you need to review.
             </p>
 
@@ -1132,8 +1132,8 @@ export default function AdminDashboardPage() {
                 className={`flex-1 px-4 py-3 text-xs sm:text-sm text-white font-semibold transition cursor-pointer active:scale-95
                   ${
                     preferences.high_contrast_mode
-                      ? "bg-black hover:bg-stone-850 dark:bg-white dark:text-black border border-black dark:border-white rounded-none uppercase font-bold text-white dark:text-black"
-                      : "bg-[#D96C4A] hover:bg-[#c45b3f] rounded-full shadow-md shadow-[#D96C4A]/25"
+                      ? "bg-black hover:bg-stone-850 dark:bg-surface dark:text-black border border-black dark:border-white rounded-none uppercase font-bold text-white dark:text-black"
+                      : "bg-primary hover:bg-primary-hover rounded-full shadow-md shadow-[#D96C4A]/25"
                   }
                 `}
               >
@@ -1146,7 +1146,7 @@ export default function AdminDashboardPage() {
                   ${
                     preferences.high_contrast_mode
                       ? "border border-black dark:border-white bg-transparent text-black dark:text-white rounded-none uppercase font-bold"
-                      : "border border-stone-200 dark:border-stone-600 text-stone-700 dark:text-slate-250 hover:bg-stone-50 dark:hover:bg-stone-800 rounded-full"
+                      : "border border-border-sand dark:border-stone-600 text-text-primary dark:text-slate-250 hover:bg-background-dim dark:hover:bg-stone-800 rounded-full"
                   }
                 `}
               >
